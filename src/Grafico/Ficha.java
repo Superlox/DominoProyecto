@@ -16,8 +16,9 @@ public class Ficha {
     private int valor2;
     private int pertenece;
     private int trampa;
-    BufferedImage imagen;
-    Ficha sigF,antF;
+    public BufferedImage imagen;
+    public Ficha sigF,antF;
+    
 
     public Ficha(int valor1, int valor2, int pertenece, int trampa, BufferedImage imagen) {
         this.valor1 = valor1;
