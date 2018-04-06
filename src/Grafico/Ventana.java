@@ -5,6 +5,7 @@
  */
 package Grafico;
 
+import estadoJuego.GameState;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -26,9 +27,10 @@ public class Ventana extends JFrame implements Runnable{
     Graphics g;
     private Thread thread;
     private boolean running = false;
+    private static GameState gameState;
     
     public Ventana(){
-        setTitle("Que mira compa");
+        setTitle("Domino(Angel y Marco)");
         setSize(width,height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -49,14 +51,14 @@ public class Ventana extends JFrame implements Runnable{
     public static void main(String[] args){
         
         new Ventana().start();
-        
+        gameState=new GameState();
     }
     
     public void update(){
-        
+        gameState.update();
     }
     
-    private void draw(){
+    private void Dibujar(){
         bS = canvas.getBufferStrategy();
         
         if (bS == null){
@@ -72,8 +74,9 @@ public class Ventana extends JFrame implements Runnable{
        while(aux!=null){
        
            g.drawImage(aux.imagen,cont,cont2,null);
-               cont+=29;
-               aux=aux.sigF;
+           cont+=29;
+           aux=aux.sigF;
+           gameState.Dibujar(g);
        }
        ///Termina Dibujo        
         g.dispose();
@@ -100,7 +103,7 @@ public class Ventana extends JFrame implements Runnable{
         while(running){
             //lo que hara la ventana
             update();
-            draw();
+            Dibujar();
         }
         stop();
     }
