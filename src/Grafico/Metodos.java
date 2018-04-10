@@ -11,6 +11,8 @@ import static Grafico.Assets.imp;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import Main.Usuario;
+import Main.fichaUser;
 
 /**
  *
@@ -59,6 +61,37 @@ public class Metodos {
        }
     
     } 
+    public void setFichas(){
+        Main.Usuario aux= Main.Login.auxUser;
+        int cont=0;
+        Ficha aux2=inicioF;
+        fichaUser aux3;
+        while(cont <=6){
+            if(aux.sigFU!=null){
+                aux3=new fichaUser(aux2.getValor1(),aux2.getValor2(),aux2.pertenece,aux2.trampa,aux2.imagen);
+                aux.sigFU=aux3;
+                aux2=aux2.sigF;
+            }
+            else{
+                aux3=new fichaUser(aux2.getValor1(),aux2.getValor2(),aux2.pertenece,aux2.trampa,aux2.imagen);
+                aux3.sigFI=aux.sigFU;
+                aux.sigFU=aux3;
+                aux2=aux2.sigF;
+            }
+            cont++;
+            }
+            fichaUser auximp=aux.sigFU;
+            imprimirFichaUsuario(auximp);
+            
+        }
+    public void imprimirFichaUsuario(fichaUser aux){
+        while(aux!=null){
+            System.out.println(aux.valor1+"--"+aux.valor2);
+            aux=aux.sigFI;
+        }
+    }
+    }
+
    /*public void cargarFichas2(){
         int cont1=0;
         int cont2=0;
@@ -139,4 +172,4 @@ public class Metodos {
     }*/
     
 
-}
+

@@ -7,7 +7,6 @@ package estadoJuego;
 
     
 import Grafico.Assets;
-import gameObjects.Jugador;
 import java.awt.Graphics;
 import math.Vectores;
 
@@ -16,7 +15,7 @@ import math.Vectores;
  * @author marco
  */
 public class GameState {
-    private Jugador player;
+    
     public GameState(){
         
     }

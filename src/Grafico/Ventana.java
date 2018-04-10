@@ -44,18 +44,20 @@ public class Ventana extends JFrame implements Runnable{
         setVisible(true);
     
         met.cargarFichas();
+        met.setFichas();
         start();
+        
         
     
     }
     public static void main(String[] args){
         
         new Ventana().start();
-        gameState=new GameState();
+        
     }
     
     public void update(){
-        gameState.update();
+        
     }
     
     private void Dibujar(){
@@ -76,7 +78,7 @@ public class Ventana extends JFrame implements Runnable{
            g.drawImage(aux.imagen,cont,cont2,null);
            cont+=29;
            aux=aux.sigF;
-           gameState.Dibujar(g);
+           
        }
        ///Termina Dibujo        
         g.dispose();

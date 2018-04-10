@@ -11,10 +11,11 @@ package Main;
  * @author marco
  */
 public class Usuario {
-    String nombre;
-    String Contraseña;
-    String control;
-    Usuario sig,ant;
+    public String nombre;
+    public String Contraseña;
+    public String control;
+    public Usuario sig,ant;
+    public fichaUser sigFU;
 
     public Usuario(String Nombre, String Contraseña,String control) {
         this.nombre = Nombre;
