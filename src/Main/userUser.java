@@ -89,7 +89,7 @@ public class userUser extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        Grafico.Ventana F3 = new Grafico.Ventana();
+        Grafico.Juego F3=new Grafico.Juego();
         F3.setVisible(true);
         this.setVisible(false);
         
