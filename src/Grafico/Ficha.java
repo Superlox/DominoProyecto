@@ -12,14 +12,13 @@ import java.awt.image.BufferedImage;
  * @author marco
  */
 public class Ficha {
-    public int valor1;
-    public int valor2;
-    public int pertenece;
-    public int trampa;
-    public BufferedImage imagen;
+    private int valor1;
+    private int valor2;
+    private int pertenece;
+    private int trampa;
+    BufferedImage imagen;
     public Ficha sigF,antF;
     
-
     public Ficha(int valor1, int valor2, int pertenece, int trampa, BufferedImage imagen) {
         this.valor1 = valor1;
         this.valor2 = valor2;

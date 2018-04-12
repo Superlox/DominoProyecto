@@ -4,25 +4,60 @@
  * and open the template in the editor.
  */
 package Grafico;
+import Main.Usuario;
+import Main.metodos;
 
 import java.awt.Canvas;
-import static Grafico.Assets.List;
-import static Grafico.Assets.imp;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
-import Main.Usuario;
-import Main.fichaUser;
+import java.awt.image.BufferedImage;
+import java.util.Random;
 
 /**
  *
  * @author marco
  */
 public class Metodos {
-    Ficha inicioF,finF;
+    public Ficha inicioF,finF;
+    public static BufferedImage imp;
+    Random random = new Random();
     
+    public void darfichas(Usuario U){/*Da 8 Fichas a Usuario*/
+        int cont=0; /*Va a contar cada ficha agregada*/
+        while (cont<8) {
+            Ficha aux=inicioF;
+            int pos = 0;
+            int numero = random.nextInt(this.lenF(inicioF)-1); /*Genera aleatoriamenete entre 0 a total de fichas*/
+            System.out.println(numero);
+            while (aux!=null) {
+                if(pos==numero){
+                    U.setInicioF(aux); /*agrega ficha a lista de fichas de aux*/
+                    if (aux.antF==null){ /*En caso de ser el primero*/
+                        aux=aux.sigF;
+                        aux.antF=null;
+                        inicioF=aux;
+                        break;
+                    }
+                    else if (aux.sigF==null){ /*En caso de ser el ultimo*/
+                        aux=aux.antF;
+                        aux.sigF=null;
+                        aux=finF;
+                        break;
+                    }
+                    aux.antF.sigF=aux.sigF; /*Elmino el aux de la lista de Fichas generadas*/
+                    aux.sigF.antF=aux.antF; /**/
+                    break; 
+                }
+                aux=aux.sigF;
+                pos+=1;
+            }
+            cont+=1;
+        }
+    }
     
-    public void cargarFichas(){
+    public void cargarFichas(){ /*crea todas las 28 fichas con su respectiva imagen extrayendola.*/
         int cont1=0;
         int cont2=0;
         for(int i=0; i<28;i++){
@@ -55,43 +90,25 @@ public class Metodos {
                 f.sigF=inicioF;
                 inicioF.antF=f;
                 inicioF=f;
-              System.out.println(inicioF.getValor1() +"-"+ inicioF.getValor2());
+                System.out.println(inicioF.getValor1() +"-"+ inicioF.getValor2());
             }
             
        }
     
-    } 
-    public void setFichas(){
-        Main.Usuario aux= Main.Login.auxUser;
+    }
+    
+    public int lenF(Ficha ficha){ /*retorna el tamano de la lista*/
+        Ficha aux= ficha;
         int cont=0;
-        Ficha aux2=inicioF;
-        fichaUser aux3;
-        while(cont <=6){
-            if(aux.sigFU!=null){
-                aux3=new fichaUser(aux2.getValor1(),aux2.getValor2(),aux2.pertenece,aux2.trampa,aux2.imagen);
-                aux.sigFU=aux3;
-                aux2=aux2.sigF;
-            }
-            else{
-                aux3=new fichaUser(aux2.getValor1(),aux2.getValor2(),aux2.pertenece,aux2.trampa,aux2.imagen);
-                aux3.sigFI=aux.sigFU;
-                aux.sigFU=aux3;
-                aux2=aux2.sigF;
-            }
-            cont++;
-            }
-            fichaUser auximp=aux.sigFU;
-            imprimirFichaUsuario(auximp);
-            
+        while (aux!=null){
+            aux=aux.sigF;
+            cont+=1;
         }
-    public void imprimirFichaUsuario(fichaUser aux){
-        while(aux!=null){
-            System.out.println(aux.valor1+"--"+aux.valor2);
-            aux=aux.sigFI;
-        }
+        return cont;
     }
-    }
+    
 
+    
    /*public void cargarFichas2(){
         int cont1=0;
         int cont2=0;
@@ -172,4 +189,4 @@ public class Metodos {
     }*/
     
 
-
+}
