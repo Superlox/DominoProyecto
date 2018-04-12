@@ -157,13 +157,57 @@ public void leerUsuarios() {
     }
 public void imprimir(){
         Usuario aux=inicio;
+        System.out.println("-----------------------------------------------------");
         while(aux!=null&aux.sig!=inicio){
+            
             System.out.println(aux.nombre+"\t"+aux.Contraseña+"\t"+aux.control);
+            
             aux=aux.sig;
         }
         aux=fin;
         System.out.println(aux.nombre+"\t"+aux.Contraseña+"\t"+aux.control);
+        System.out.println("-----------------------------------------------------");
 }
+
+    public Usuario modficar(String nom,String cont){
+        Usuario aux=buscarN(nom);
+        if(aux!=null){
+            aux.Contraseña=cont;
+            return aux;
+        }
+        return null;
+    }
+    
+    public Usuario eliminar(String nom){
+    Usuario aux=inicio;
+    imprimir();
+    if(inicio.nombre.equals(nom)){
+        inicio.sig=inicio;
+        inicio.ant=fin;
+        fin.sig=inicio;
+        imprimir();
+        return aux;
+    }
+    while(aux!=fin ){
+        if(aux.nombre.equals(nom)){
+            aux.sig.ant=aux.ant;
+            aux.ant.sig=aux.sig;
+            imprimir();
+            return aux;
+        }
+        aux=aux.sig;
+    }
+    if(fin.nombre.equals(nom)){
+        fin.ant.sig=inicio;
+        fin=fin.ant;
+        inicio.ant=fin;
+        
+        imprimir();
+        return aux;
+    }
+    imprimir();
+    return null;
+    }
 }       
 
     

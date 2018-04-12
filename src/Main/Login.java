@@ -17,13 +17,14 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
     public static metodos met = new metodos();
-    
+    public static Usuario auxUser;
     /**
      * Creates new form Login
      */
     public Login() {
         met.leerUsuarios();//llamada para leer usuarios en el archivo.
         initComponents();
+        
     }
 
     /**
@@ -127,13 +128,14 @@ public class Login extends javax.swing.JFrame {
                jPasswordField1.setText("");
             }
             else{
-            if(aux.control.equals("1")){
+            if(aux.getControl().equals("1")){
                 userAdmin F3=new userAdmin(this,met);
                 F3.setVisible(true);
                 this.setVisible(false);
             }
             else{
                 userUser F4=new userUser(this,met);
+                auxUser=aux;
                 F4.setVisible(true);
                 this.setVisible(false);
             }
