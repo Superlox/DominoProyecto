@@ -29,7 +29,7 @@ public class Dibujo extends Canvas implements MouseListener, MouseMotionListener
     
     public Dibujo(){
         
-        this.setBackground(Color.blue);
+        this.setBackground(Color.orange);
         
     }
     
@@ -41,11 +41,11 @@ public class Dibujo extends Canvas implements MouseListener, MouseMotionListener
         /*draw.setColor(Color.GREEN);
         draw.drawRect(30,10,40,100);/*Solo dibuja la linea del cuadrado*/
            
-        draw.setColor(Color.blue);
+        draw.setColor(Color.orange);
         draw.drawString("Hola Mundo", 200, 100);/*Imprime hola mundo esa pos*/
         
         draw.setColor(Color.white); /*Elige un color */
-        draw.fillRect(125,125,1115,450);/*Rellena un rectangulo y lo ubica*/
+        draw.fillRect(91,100,1170,500);/*Rellena un rectangulo y lo ubica*/
         /*draw.setStroke(new BasicStroke(5));
         draw.setColor(Color.black);
         draw.draw(this.fichaj);*/
@@ -90,18 +90,18 @@ public class Dibujo extends Canvas implements MouseListener, MouseMotionListener
     }
         
     public void dominosjugadores(Usuario u1,Usuario u2, Usuario u3,Graphics2D draw){
-        draw.setColor(Color.cyan);
-        draw.fillRect(1240,125,125,450); /*Cuadro del U1*/
-        draw.fillRect(430,0,450,125);  /*Cuadro del U2*/
-        draw.fillRect(0,125,125,450);  /*Cuadro del U3*/
+        draw.setColor(Color.yellow);
+        draw.fillRect(1260,125,90,450); /*Cuadro del U1*/
+        draw.fillRect(430,0,450,100);  /*Cuadro del U2*/
+        draw.fillRect(0,125,90,450);  /*Cuadro del U3*/
         draw.setColor(Color.BLACK);
         met.cargarFichas();
 
-        draw.drawString(u1.getNombre(), 1270, 155); /*Escribe el nombre*/
+        draw.drawString(u1.getNombre(), 1280, 155); /*Escribe el nombre*/
         this.fichasnegras(1265,200,70,30,0,40,draw);/*Dibuja las fichas*/
                          /*x,y,ancho,largo,incx,incy,draw*/
-        draw.drawString(u2.getNombre(), 650, 30);
-        this.fichasnegras(500,45, 30, 70, 40, 0, draw);
+        draw.drawString(u2.getNombre(), 650, 22);
+        this.fichasnegras(500,30, 30, 70, 40, 0, draw);
         
         draw.drawString(u3.getNombre(), 25, 155);
         this.fichasnegras(20,200,70,30,0,40,draw);
