@@ -72,57 +72,63 @@ public class userAdmin extends javax.swing.JFrame {
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 35, -1));
 
         jButton2.setBackground(new java.awt.Color(102, 255, 255));
+        jButton2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton2.setText("Agregar Usuario");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 130, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, 160, -1));
 
         jButton3.setBackground(new java.awt.Color(102, 255, 255));
+        jButton3.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton3.setText("Modificar Usuario");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 130, -1));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 250, 160, -1));
 
         jButton4.setBackground(new java.awt.Color(102, 255, 255));
+        jButton4.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton4.setText("Eliminar Usuario");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 210, 140, -1));
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, 170, -1));
 
         jButton5.setBackground(new java.awt.Color(102, 255, 255));
+        jButton5.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton5.setText("Ver Partidas");
-        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(271, 250, 140, -1));
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 220, 170, -1));
 
         jLabel2.setFont(new java.awt.Font("Perpetua Titling MT", 1, 18)); // NOI18N
         jLabel2.setText("Menu De Administradores");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, -1, -1));
 
         jButton6.setBackground(new java.awt.Color(102, 255, 255));
+        jButton6.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton6.setText("Partidas Guardadas");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, -1, -1));
+        getContentPane().add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 310, 160, -1));
 
         jButton7.setBackground(new java.awt.Color(102, 255, 255));
+        jButton7.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton7.setText("Usuarios Registrados");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(273, 290, 140, -1));
+        getContentPane().add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, 170, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 440));

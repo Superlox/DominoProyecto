@@ -5,11 +5,13 @@
  */
 package Main;
 
+import javax.swing.DefaultListModel;
 /**
  *
  * @author marco
  */
 public class PreparacionPartida extends javax.swing.JFrame {
+    DefaultListModel<String> listmodel = new DefaultListModel<>();
     userUser F5;
     public static metodos met;
     /**
@@ -19,6 +21,7 @@ public class PreparacionPartida extends javax.swing.JFrame {
         initComponents();
         this.F5=F5;
         this.met=met;
+        imprimirUsuario();
     }
 
     private PreparacionPartida() {
@@ -38,7 +41,7 @@ public class PreparacionPartida extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listausers = new javax.swing.JList<>();
+        jList1 = new javax.swing.JList<>();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
@@ -59,10 +62,12 @@ public class PreparacionPartida extends javax.swing.JFrame {
         jLabel1.setText("Lista de jugadores registrados");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
 
+        jButton1.setBackground(new java.awt.Color(102, 255, 255));
+        jButton1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton1.setText("Cargar Partida");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, -1));
 
-        jScrollPane1.setViewportView(listausers);
+        jScrollPane1.setViewportView(jList1);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 210, -1));
         getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, 90, -1));
@@ -81,13 +86,15 @@ public class PreparacionPartida extends javax.swing.JFrame {
         jLabel4.setText("Jugador 4:");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 220, -1, -1));
 
+        jButton2.setBackground(new java.awt.Color(102, 255, 255));
+        jButton2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton2.setText("Jugar Y Crear Partida");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 260, -1, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 280, -1, -1));
 
         jButton3.setBackground(new java.awt.Color(153, 255, 255));
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/asd.png"))); // NOI18N
@@ -147,6 +154,7 @@ public class PreparacionPartida extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new PreparacionPartida().setVisible(true);
+                
             }
         });
     }
@@ -160,16 +168,33 @@ public class PreparacionPartida extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JList<String> listausers;
     // End of variables declaration//GEN-END:variables
 
 public void cerrar(){
 F5.setVisible(true);
 this.dispose();
+}
+public void imprimirUsuario(){
+    listmodel.clear();
+    int cont=1;
+    Usuario aux=met.inicio;
+    while(aux!=met.fin){
+        if(aux.nombre==Login.auxUser.nombre)
+            aux=aux.sig;
+    listmodel.addElement("-------------------------------");
+    listmodel.addElement(cont+"-"+"Usuario: " + aux.getNombre());
+    aux=aux.sig;
+    cont++;
+    }
+    listmodel.addElement("-------------------------------");
+    listmodel.addElement(cont+"-"+"Usuario: " + aux.getNombre());
+    listmodel.addElement("-------------------------------");
+    jList1.setModel(listmodel);
 }
 }

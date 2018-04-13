@@ -64,22 +64,24 @@ public class userUser extends javax.swing.JFrame {
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 34, -1));
 
         jButton2.setBackground(new java.awt.Color(102, 255, 255));
+        jButton2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton2.setText("Juego");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 160, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, 160, -1));
 
         jButton3.setBackground(new java.awt.Color(102, 255, 255));
+        jButton3.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton3.setText("Modificar Informacion");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 160, -1));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 150, 160, -1));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setText("Menú Usuario");

@@ -59,6 +59,8 @@ public class ObservarUsuarios extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 50, 430, 170));
 
+        jButton1.setBackground(new java.awt.Color(153, 255, 255));
+        jButton1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton1.setText("Inicio");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -67,14 +69,18 @@ public class ObservarUsuarios extends javax.swing.JFrame {
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, -1, -1));
 
+        jButton3.setBackground(new java.awt.Color(153, 255, 255));
+        jButton3.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton3.setText("Final");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 230, -1, -1));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 230, -1, -1));
 
+        jButton2.setBackground(new java.awt.Color(102, 255, 255));
+        jButton2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton2.setText("<<<");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -83,6 +89,8 @@ public class ObservarUsuarios extends javax.swing.JFrame {
         });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, -1, -1));
 
+        jButton4.setBackground(new java.awt.Color(102, 255, 255));
+        jButton4.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton4.setText(">>>");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
