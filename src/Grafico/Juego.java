@@ -21,7 +21,7 @@ public class Juego extends JFrame {
     Metodos met=new Metodos(); /*Todos los metods*/
     static final int width=1365,height=720; /*Tamano de la ventana*/
     /*Canvas y los grafics para dibujar*/
-    Dibujo canvas = new Dibujo(); 
+    Partida canvas = new Partida(); 
     BufferStrategy bS;
     Graphics g;
     /*CANVAS*/

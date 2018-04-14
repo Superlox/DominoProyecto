@@ -25,35 +25,32 @@ public class Metodos {
     Random random = new Random();
     
     public void darfichas(Usuario U){/*Da 8 Fichas a Usuario*/
-        int cont=0; /*Va a contar cada ficha agregada*/
-        while (cont<8) {
-            Ficha aux=inicioF;
+        for (int i =0; i<8; i++) {
+            System.out.println("pepe");
+            Ficha aux=this.inicioF;
             int pos = 0;
-            int numero = random.nextInt(this.lenF(inicioF)-1); /*Genera aleatoriamenete entre 0 a total de fichas*/
+            System.out.println("hola");
+            int numero = random.nextInt(this.lenF(this.inicioF)); /*Genera aleatoriamenete entre 0 a total de fichas*/
             System.out.println(numero);
-            while (aux!=null) {
-                if(pos==numero){
-                    U.setInicioF(aux); /*agrega ficha a lista de fichas de aux*/
-                    if (aux.antF==null){ /*En caso de ser el primero*/
-                        aux=aux.sigF;
-                        aux.antF=null;
-                        inicioF=aux;
-                        break;
-                    }
-                    else if (aux.sigF==null){ /*En caso de ser el ultimo*/
-                        aux=aux.antF;
-                        aux.sigF=null;
-                        aux=finF;
-                        break;
-                    }
-                    aux.antF.sigF=aux.sigF; /*Elmino el aux de la lista de Fichas generadas*/
-                    aux.sigF.antF=aux.antF; /**/
-                    break; 
-                }
-                aux=aux.sigF;
+            while (pos!=numero){
                 pos+=1;
+                aux=aux.sigF;
             }
-            cont+=1;
+            U.setInicioF(aux);
+            if(numero==0){
+                this.inicioF=this.inicioF.sigF;
+                this.inicioF.antF=null;
+            }
+            if (numero==this.lenF(this.inicioF)-1){
+                this.finF=this.finF.antF;
+                this.finF.sigF=null;
+            }
+            if (numero!=0 || numero !=this.lenF(this.inicioF)-1){
+                aux.sigF.antF=aux.antF;
+                aux.antF.sigF=aux.sigF;
+            }
+            
+
         }
     }
     
@@ -106,8 +103,31 @@ public class Metodos {
         }
         return cont;
     }
-    
+    public void selecionarficha(int x ,int y){/*estaran todas las funciones de verificancion y turno*/
 
+    }
+    public boolean vcuadro(int x,int y){/*Verifica si seleciona dentro del cuadro a dibujar*/
+        if(x<1261 && x>91 && y<580 && y>100){
+            return true;
+        }
+        return false;
+    }
+    
+    public int vselectf(int x,int y){/*verifica si seleciona ficha*/
+        int x2=510;
+        int y2=600;
+
+        int indice=1;
+        while (indice<=8){
+            if (x2<=x && x2+27>=x && y2<=y && y2+58>=y) {
+            return indice;
+            }
+            indice+=1;
+            x2+=40; /*espacio entre cada ficha*/
+        }
+        /*aqui va la condiccion para la trampa*/
+        return 0;
+    }
     
    /*public void cargarFichas2(){
         int cont1=0;

@@ -56,8 +56,9 @@ public class Usuario {
         if (this.sigF==null){
             this.sigF = aux;
             return;
-}
+        }
         aux.sigF=this.sigF;
+        this.sigF.antF=aux;
         this.sigF=aux;
     }
 
