@@ -14,6 +14,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -103,20 +104,20 @@ public class Metodos {
         }
         return cont;
     }
-    public void selecionarficha(int x ,int y){/*estaran todas las funciones de verificancion y turno*/
 
-    }
-    public boolean vcuadro(int x,int y){/*Verifica si seleciona dentro del cuadro a dibujar*/
-        if(x<1261 && x>91 && y<580 && y>100){
-            return true;
-        }
-        return false;
-    }
+
     
     public int vselectf(int x,int y){/*verifica si seleciona ficha*/
         int x2=510;
         int y2=600;
 
+        if (1050<=x && 1300>=x && 10<=y && 90>=y){/*Si selecionase SIGUIENTE*/
+            return 9;
+        }
+        if (10<=x && 160>=x && 20<=y && 70>=y){/*Si fuese Salir*/
+            return 10;
+        }
+        
         int indice=1;
         while (indice<=8){
             if (x2<=x && x2+27>=x && y2<=y && y2+58>=y) {
@@ -125,9 +126,13 @@ public class Metodos {
             indice+=1;
             x2+=40; /*espacio entre cada ficha*/
         }
+        
+        
         /*aqui va la condiccion para la trampa*/
         return 0;
     }
+    
+    
     
    /*public void cargarFichas2(){
         int cont1=0;

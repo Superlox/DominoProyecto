@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Path2D;
+import java.awt.image.BufferedImage;
 import javax.swing.JOptionPane;
 
 /**
@@ -29,9 +30,13 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
     Usuario u4 = new Usuario("NUEVO","hola","gg");
     Usuario inicio = u1;
     int mposx,mposy=0;
-    boolean band = true;
-    boolean sodf = true;
+    boolean band = true; 
+    boolean sodf = true; /*para saber si dibuja o seleciona ficha*/
+    boolean jugadarealizada=false;/*para saber cuando el jugador jugo*/
     Ficha fichadibujar;
+    Fichacolocada iniciocolocar= new Fichacolocada(660,310,660,368,687,310);
+    int rotacion = 0;
+    BufferedImage imagen;
     
     public Partida(){
         
@@ -53,14 +58,22 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
         
             draw.setColor(Color.white); /*Elige un color */
             draw.fillRect(91,100,1170,480);/*Rellena un rectangulo y lo ubica*/
-
+            draw.setColor(Color.GREEN); /*Dibuja donde debe poner la ficha*/
+            draw.fillRect(660,310,27,58);
+            
+            imagen=Loader.ImageLoader("/Imagenes/siguiente.png");
+            draw.drawImage(imagen,null, 1050, 10);
+            imagen=Loader.ImageLoader("/Imagenes/salir.png"); /*Dibuja los botones salir y siguiente*/
+            draw.drawImage(imagen,null,10,20);
+        
         /*Quemar datos*/
         u4.sig=inicio;
         u3.sig=u4;
         u2.sig=u3;
         inicio.sig=u2;
+        
         met.cargarFichas();
-
+        JOptionPane.showMessageDialog(null, "Es el turno del jugador: "+inicio.nombre);
         dominosjugadores(4,inicio,draw);
                 
         
@@ -73,15 +86,14 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
         
         Graphics g=getGraphics();
         Graphics2D draw=(Graphics2D) g;
+        int ificha=met.vselectf(mposx,mposy);/*da un indice para buscar la ficha*/
         
         if (sodf){/*seleccionar ficha*/
-            int ificha=met.vselectf(mposx,mposy);/*da un indice para buscar la ficha*/
-            System.out.println(ificha);
-            if (ificha==0){/*retornara 0 si seleciona un espacio donde no hay nada*/
+            if (ificha==0 && this.jugadarealizada==false){/*retornara 0 si seleciona un espacio donde no hay nada*/
                 JOptionPane.showMessageDialog(null, "Selecione ficha o trampa");        
             }
-            if (ificha>0 && ificha<9){
-                this.fichadibujar=met.inicioF;/*dato quemado DEBO HACER UNA FUNCION YA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+            if (ificha>0 && ificha<9 && this.jugadarealizada==false){
+                this.fichadibujar=met.inicioF;/*dato quemado, cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
                 int cont=1;
                 while (this.fichadibujar!=null){/*le da fichadibujar la ficha a dibujar*/
                     if (cont==ificha){
@@ -92,18 +104,63 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
                 }
                 sodf=false; /*para que pase a dibujar*/
             }
-            /*aqui iria la trampa*/
-        }
-        else{/*Dibujar FICHA*/
-            boolean cuadro = met.vcuadro(mposx,mposy);
-            if (cuadro){ /*Seleciono dentro del cuadro*/
-                draw.drawImage(this.fichadibujar.imagen, null, mposx, mposy);
-                this.fichadibujar=null;
-                sodf=true;
+            if (ificha==9){/*pasar de jugador*/
+                inicio=inicio.sig;
+                this.jugadarealizada=false;
+                JOptionPane.showMessageDialog(null, "Es el turno del jugador: "+inicio.nombre);
+                
+                
                 
             }
-            else{
-                JOptionPane.showMessageDialog(null, "Para poner ficha seleciona dentro de la mesa(Cuadro Blanco)");
+            if (ificha==10){/*Salir del juego*/
+                
+            }
+            
+            
+            /*aqui iria la trampa*/
+            if (this.jugadarealizada){
+                JOptionPane.showMessageDialog(null, "Ya realizó su jugada. Dele a Pasar turno para continuar...");
+            }
+        }
+        else{/*Colocar FICHA o trampa*/
+            boolean cuadro=true;
+            while (iniciocolocar!=null){/*Recorre los cuadros para ubicar el domino*/
+                if(iniciocolocar.iax<=mposx && iniciocolocar.dax>=mposx && iniciocolocar.iay<=mposy && iniciocolocar.iby>=mposy){ /*verifica donde quiere colocar la ficha*/
+                        if(iniciocolocar.numero==7){
+                            draw.drawImage(this.fichadibujar.imagen,null,iniciocolocar.iax,iniciocolocar.iay);
+                            Fichacolocada aux2 = new Fichacolocada(iniciocolocar.iax,iniciocolocar.iay-60,iniciocolocar.ibx,iniciocolocar.iby-60,iniciocolocar.dax,iniciocolocar.day-60);
+                            Fichacolocada aux1 = new Fichacolocada(iniciocolocar.iax,iniciocolocar.iay+60,iniciocolocar.ibx,iniciocolocar.iby+60,iniciocolocar.dax,iniciocolocar.day+60);
+                            aux1.setNumero(this.fichadibujar.valor1);
+                            aux2.setNumero(this.fichadibujar.valor2);
+                            aux1.sigFc=aux2;
+                            iniciocolocar=aux1;
+                            draw.setColor(Color.GREEN);
+                            draw.fillRect(aux1.iax, aux1.iay, 27, 58);
+                            draw.fillRect(aux2.iax, aux2.iay, 27, 58); /*coloca los cuadros verdes para selecionar*/
+                            
+                            this.fichadibujar=null;
+                            sodf=true; /*ya termino de colocar la ficha*/
+                            this.jugadarealizada=true; /*hace que vean  que ya jugo*/
+                            cuadro=false; /*para dar por hecho que coloco en el espacio verde*/
+                            break;
+                        }
+                        /*Este sera cuando son iguales crear 2 caminos y girar la ficha*/
+                        if (iniciocolocar.numero==this.fichadibujar.valor1 && iniciocolocar.numero==this.fichadibujar.valor2){
+                            draw.rotate(Math.toRadians(rotacion));
+                            draw.drawImage(this.fichadibujar.imagen,null,iniciocolocar.ibx+4,iniciocolocar.iby);
+                            
+                            break;
+                        }
+                        if (iniciocolocar.numero==this.fichadibujar.valor2 ){
+                            
+                        }
+                        
+                }
+                iniciocolocar=iniciocolocar.sigFc;
+            }
+            if (cuadro)
+                JOptionPane.showMessageDialog(null, "Coloca la ficha en el espacio verde correcto");
+           
                 
             }
             
@@ -111,37 +168,36 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
         
 
             
-    }
+    
 
     @Override
     public void mousePressed(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet.");
+
     }
 
     @Override
     public void mouseReleased(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
     public void mouseEntered(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
     public void mouseExited(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
     public void mouseDragged(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
     public void mouseMoved(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+          }
         
     public void dominosjugadores(int cantplayers,Usuario Inicio,Graphics2D draw){/*Dibuja los cuadros y las fichas de cada jugador incluyendo el del turno*/
         draw.setColor(Color.yellow);
@@ -149,6 +205,8 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
         draw.fillRect(430,0,450,100);  /*Cuadro del U2*/
         draw.fillRect(0,100,91,400);  /*Cuadro del U3*/
         draw.fillRect(0,580,1365,120);
+        
+
         
         if (cantplayers>=1){
             draw.setColor(Color.BLACK);
