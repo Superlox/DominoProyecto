@@ -73,6 +73,8 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
         inicio.sig=u2;
         
         met.cargarFichas();
+        met.setFichas(u1);
+        met.setFichas(u2);
         JOptionPane.showMessageDialog(null, "Es el turno del jugador: "+inicio.nombre);
         dominosjugadores(4,inicio,draw);
                 

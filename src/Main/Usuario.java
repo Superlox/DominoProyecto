@@ -18,12 +18,14 @@ public class Usuario {
     public String control;
     public Usuario sig,ant;
     public Ficha sigF;
-
+    public Ficha sigFicha;
+    
     public Usuario(String Nombre, String Contraseña,String control) {
         this.nombre = Nombre;
         this.Contraseña = Contraseña;
         this.control=control;
         this.sig=this.ant=null;
+        this.sigFicha=null;
     }
 
 

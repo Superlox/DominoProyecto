@@ -6,6 +6,7 @@
 package Main;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 /**
  *
  * @author marco
@@ -13,6 +14,9 @@ import javax.swing.DefaultListModel;
 public class PreparacionPartida extends javax.swing.JFrame {
     DefaultListModel<String> listmodel = new DefaultListModel<>();
     userUser F5;
+    Usuario us2;
+    Usuario us3;
+    Usuario us4;
     public static metodos met;
     /**
      * Creates new form PreparacionPartida
@@ -21,7 +25,7 @@ public class PreparacionPartida extends javax.swing.JFrame {
         initComponents();
         this.F5=F5;
         this.met=met;
-        imprimirUsuario();
+        
     }
 
     private PreparacionPartida() {
@@ -50,6 +54,7 @@ public class PreparacionPartida extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
@@ -65,7 +70,7 @@ public class PreparacionPartida extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(102, 255, 255));
         jButton1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton1.setText("Cargar Partida");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 330, -1, -1));
 
         jScrollPane1.setViewportView(jList1);
 
@@ -94,7 +99,7 @@ public class PreparacionPartida extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 280, -1, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 280, -1, -1));
 
         jButton3.setBackground(new java.awt.Color(153, 255, 255));
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/asd.png"))); // NOI18N
@@ -104,6 +109,16 @@ public class PreparacionPartida extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 34, -1));
+
+        jButton4.setBackground(new java.awt.Color(102, 255, 255));
+        jButton4.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButton4.setText("Refrescar Usuarios");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, -1, -1));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo.png"))); // NOI18N
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -118,10 +133,32 @@ public class PreparacionPartida extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        Grafico.Juego F6= new Grafico.Juego();
-        F6.setVisible(true);
-        this.setVisible(false);
+        int cont=1;
+         if ((jTextField2.getText().isEmpty()) && (jTextField3.getText().isEmpty())&&(jTextField4.getText().isEmpty())) {
+            JOptionPane.showMessageDialog(null, "Debe llenar los espacios para poder buscar un contrincante.");
+         }
+         Usuario aux1=met.buscarN(jTextField2.getText());
+         Usuario aux2=met.buscarN(jTextField3.getText());
+         Usuario aux3=met.buscarN(jTextField4.getText());
+         if(aux1!=null&&aux1.nombre!=aux2.nombre&& aux1.nombre!=aux3.nombre){
+             us2=aux1;
+             cont++;
+         }
+         if(aux2!=null&&aux2.nombre!=aux1.nombre&& aux2.nombre!=aux3.nombre){
+             us3=aux2;
+             cont++;
+         }
+         if(aux3!=null&&aux3.nombre!=aux2.nombre&& aux3.nombre!=aux1.nombre){
+             us4=aux3;
+             cont++;
+         }
+         JOptionPane.showMessageDialog(null, cont);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,6 +200,7 @@ public class PreparacionPartida extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -18,6 +18,7 @@ public class Ficha {
     public int trampa;
     BufferedImage imagen;
     public Ficha sigF,antF;
+    public Ficha sigFichaUsuario,antFichaUsuario;
     
     public Ficha(int valor1, int valor2, int pertenece, int trampa, BufferedImage imagen) {
         this.valor1 = valor1;
@@ -27,6 +28,8 @@ public class Ficha {
         this.imagen = imagen;
         this.sigF = null;
         this.antF = null;
+        this.sigFichaUsuario=null;
+        this.antFichaUsuario=null;
     }
 
     public int getValor1() {

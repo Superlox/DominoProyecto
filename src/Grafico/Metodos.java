@@ -131,7 +131,81 @@ public class Metodos {
         /*aqui va la condiccion para la trampa*/
         return 0;
     }
+            public void setFichas(Usuario u){//Empieza parte para agregar fichas al usuario
+        Ficha aux=inicioF;
+        int cont=0;
+        while(cont <=6){
+            if(u.sigFicha==null){
+               int numero=RandomFicha(lenF(aux));
+               Ficha fichaEncontrada=BuscarFicha(numero);
+               u.sigFicha=fichaEncontrada;
+               eliminarFicha(fichaEncontrada);
+            }
+            else{
+                int numero=RandomFicha(lenF(aux));
+                Ficha fichaEncontrada=BuscarFicha(numero);
+                fichaEncontrada.sigFichaUsuario=u.sigFicha;
+                u.sigFicha.antF=fichaEncontrada;
+                u.sigFicha=fichaEncontrada;
+                eliminarFicha(fichaEncontrada);
+                
+            }
+            cont++;
+        }
+        imprimir(u);
+        }
+        public int RandomFicha(int hasta){//numero random para la ficha
+          int randomInt = random.nextInt(hasta);
+          return randomInt;
+        }
+        public Ficha BuscarFicha(int Indice){//buscar la ficha ya despues haber obtenido el ramdom
+            Ficha aux=inicioF;
+            int cont=0;
+            while(cont!=Indice){
+               aux=aux.sigF;
+               cont++;
+            }
+            if(cont==Indice){
+            return aux;
+            }
+            return null;
+        }
+    public Ficha eliminarFicha(Ficha f){//eliminar la ficha de la lista principal
+        Ficha aux=inicioF;
+        if(inicioF.equals(f)){
+            inicioF.sigF=inicioF;
+            inicioF.antF=null;
+            
+            return aux;
+    }
+        while(aux!=finF ){
+        if(aux.equals(f)){
+            aux.sigF.antF=aux.antF;
+            aux.antF.sigF=aux.sigF;
+
+            return aux;
+        }
+        aux=aux.sigF;
+    }
+    if(finF.equals(f)){
+        finF.antF=finF;
+        finF.sigF=null;
+        return aux;
+    }
+    return null;
+    }
     
+public void imprimir(Usuario u){
+        Ficha aux=u.sigFicha;
+        System.out.println("-----------------------------------------------------");
+        while(aux!=null){
+            
+            System.out.println(aux.valor1+"-+"+aux.valor2);
+            
+            aux=aux.sigFichaUsuario;
+        }
+        
+}
     
     
    /*public void cargarFichas2(){
