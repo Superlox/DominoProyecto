@@ -13,9 +13,13 @@ public class Fichacolocada {
     public int iax,iay,ibx,iby,dax,day,dbx,dby;
     public int trampa;
     public int numero=7;
-    Fichacolocada sigFc;
+    public Fichacolocada sigFc,antFc;
+    public int rotacion;
+
+    public Fichacolocada() {
+    }
     
-    public Fichacolocada(int iax, int iay, int ibx, int iby, int dax, int day) {
+    public Fichacolocada(int iax, int iay, int ibx, int iby, int dax, int day,int rotacion) {
         this.iax = iax;
         this.iay = iay;
         this.ibx = ibx;
@@ -24,6 +28,7 @@ public class Fichacolocada {
         this.day = day;
         this.dbx = iby;
         this.dby = dax;
+        this.rotacion=rotacion;
     }
 
     public void setTrampa(int trampa) {
@@ -41,5 +46,10 @@ public class Fichacolocada {
     public int getIay() {
         return iay;
     }
-    
+    public void limiterotacion(){
+        if (this.rotacion>=360){
+            this.rotacion-=360;
+        }
+    }
 }
+

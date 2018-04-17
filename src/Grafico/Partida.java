@@ -14,6 +14,7 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import javax.swing.JOptionPane;
@@ -34,9 +35,11 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
     boolean sodf = true; /*para saber si dibuja o seleciona ficha*/
     boolean jugadarealizada=false;/*para saber cuando el jugador jugo*/
     Ficha fichadibujar;
-    Fichacolocada iniciocolocar= new Fichacolocada(660,310,660,368,687,310);
+    public Fichacolocada iniciocolocar= new Fichacolocada(660,310,660,368,687,310,0);
     int rotacion = 0;
+    int cantplayers=4;/*cantidad de jugadores en partida*/
     BufferedImage imagen;
+    AffineTransform AT;
     
     public Partida(){
         
@@ -59,13 +62,18 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
             draw.setColor(Color.white); /*Elige un color */
             draw.fillRect(91,100,1170,480);/*Rellena un rectangulo y lo ubica*/
             draw.setColor(Color.GREEN); /*Dibuja donde debe poner la ficha*/
-            draw.fillRect(660,310,27,58);
+            draw.fillRect(660,310,30,60);
             
             imagen=Loader.ImageLoader("/Imagenes/siguiente.png");
             draw.drawImage(imagen,null, 1050, 10);
             imagen=Loader.ImageLoader("/Imagenes/salir.png"); /*Dibuja los botones salir y siguiente*/
             draw.drawImage(imagen,null,10,20);
-        
+            imagen=Loader.ImageLoader("/Imagenes/selecione.png");
+            draw.drawImage(imagen, null,880,0);
+            
+            imagen=Loader.ImageLoader("/Imagenes/guardar.png");
+            draw.drawImage(imagen, null,200,20);
+            
         /*Quemar datos*/
         u4.sig=inicio;
         u3.sig=u4;
@@ -73,11 +81,13 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
         inicio.sig=u2;
         
         met.cargarFichas();
-        met.setFichas(u1);
-        met.setFichas(u2);
-        JOptionPane.showMessageDialog(null, "Es el turno del jugador: "+inicio.nombre);
-        dominosjugadores(4,inicio,draw);
-                
+
+        
+        
+        
+       dominosjugadores(cantplayers,inicio,draw);
+      
+        
         
     }
     
@@ -90,88 +100,92 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
         Graphics2D draw=(Graphics2D) g;
         int ificha=met.vselectf(mposx,mposy);/*da un indice para buscar la ficha*/
         
-        if (sodf){/*seleccionar ficha*/
-            if (ificha==0 && this.jugadarealizada==false){/*retornara 0 si seleciona un espacio donde no hay nada*/
-                JOptionPane.showMessageDialog(null, "Selecione ficha o trampa");        
+        if (MouseEvent.BUTTON3==me.getButton()){
+                sodf=true;
+                this.fichadibujar=null;
+                imagen=Loader.ImageLoader("/Imagenes/selecione.png");
+                draw.drawImage(imagen, null,880,0);
+            
             }
-            if (ificha>0 && ificha<9 && this.jugadarealizada==false){
-                this.fichadibujar=met.inicioF;/*dato quemado, cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-                int cont=1;
-                while (this.fichadibujar!=null){/*le da fichadibujar la ficha a dibujar*/
-                    if (cont==ificha){
-                        break;
-                    }
-                    this.fichadibujar=this.fichadibujar.sigF;
-                    cont+=1;
+
+        if (MouseEvent.BUTTON1==me.getButton()){
+            if (sodf){/*seleccionar ficha*/        
                 }
-                sodf=false; /*para que pase a dibujar*/
-            }
-            if (ificha==9){/*pasar de jugador*/
-                inicio=inicio.sig;
-                this.jugadarealizada=false;
-                JOptionPane.showMessageDialog(null, "Es el turno del jugador: "+inicio.nombre);
+                if (ificha>0 && ificha<9 && this.jugadarealizada==false){
+
+                    this.fichadibujar=met.inicioF;/*dato quemado, cambiar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!AGREGAR FICHAS DE USUARIO INICIO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+                    int cont=1;
+                    if (ificha<=met.lenF(this.fichadibujar)){
+
+                        while (this.fichadibujar!=null){/*le da fichadibujar la ficha a dibujar*/
+                            if (cont==ificha){
+                                break;
+                            }
+
+                            this.fichadibujar=this.fichadibujar.sigF;
+                            cont+=1;
+                        }
+                        imagen=Loader.ImageLoader("/Imagenes/coloque.png");
+                        draw.drawImage(imagen, null,880,0);
+                        sodf=false; /*para que pase a dibujar*/
+
+                    }
+                }
+
+                if (ificha==9){/*pasar de jugador*/
+                    inicio=inicio.sig;
+                    dominosjugadores(cantplayers, inicio, draw);
+                    this.jugadarealizada=false;
+                    imagen=Loader.ImageLoader("/Imagenes/selecione.png");
+                    draw.drawImage(imagen, null,880,0);    
+                }
+
+                if (ificha==10){/*Salir del juego*/
+
+                }
                 
-                
-                
-            }
-            if (ificha==10){/*Salir del juego*/
-                
-            }
-            
-            
-            /*aqui iria la trampa*/
-            if (this.jugadarealizada){
-                JOptionPane.showMessageDialog(null, "Ya realizó su jugada. Dele a Pasar turno para continuar...");
-            }
-        }
-        else{/*Colocar FICHA o trampa*/
-            boolean cuadro=true;
-            while (iniciocolocar!=null){/*Recorre los cuadros para ubicar el domino*/
-                if(iniciocolocar.iax<=mposx && iniciocolocar.dax>=mposx && iniciocolocar.iay<=mposy && iniciocolocar.iby>=mposy){ /*verifica donde quiere colocar la ficha*/
-                        if(iniciocolocar.numero==7){
-                            draw.drawImage(this.fichadibujar.imagen,null,iniciocolocar.iax,iniciocolocar.iay);
-                            Fichacolocada aux2 = new Fichacolocada(iniciocolocar.iax,iniciocolocar.iay-60,iniciocolocar.ibx,iniciocolocar.iby-60,iniciocolocar.dax,iniciocolocar.day-60);
-                            Fichacolocada aux1 = new Fichacolocada(iniciocolocar.iax,iniciocolocar.iay+60,iniciocolocar.ibx,iniciocolocar.iby+60,iniciocolocar.dax,iniciocolocar.day+60);
-                            aux1.setNumero(this.fichadibujar.valor1);
-                            aux2.setNumero(this.fichadibujar.valor2);
-                            aux1.sigFc=aux2;
-                            iniciocolocar=aux1;
-                            draw.setColor(Color.GREEN);
-                            draw.fillRect(aux1.iax, aux1.iay, 27, 58);
-                            draw.fillRect(aux2.iax, aux2.iay, 27, 58); /*coloca los cuadros verdes para selecionar*/
-                            
+                if (ificha==11){/*Guardar el juego*/
+                    
+                }
+
+
+                /*aqui iria la trampa*/
+
+
+            else{/*Colocar FICHA o trampa*/
+                Fichacolocada aux =iniciocolocar;
+                while (aux!=null){/*Recorre los cuadros para ubicar el domino*/
+                    /*para probar el primero, ya que trabajamos con un nodo simple*/
+                    if(aux.iax<=mposx && aux.dax>=mposx && aux.iay<=mposy && aux.iby>=mposy ){ /*verifica donde quiere colocar la ficha*/
+
+                        band=met.direccion(aux,this.iniciocolocar,ificha,draw,this.fichadibujar,this,AT);
+
+                        if (band){
                             this.fichadibujar=null;
                             sodf=true; /*ya termino de colocar la ficha*/
                             this.jugadarealizada=true; /*hace que vean  que ya jugo*/
-                            cuadro=false; /*para dar por hecho que coloco en el espacio verde*/
+                            imagen=Loader.ImageLoader("/Imagenes/jugo.png");
+                            draw.drawImage(imagen, null,880,0);
                             break;
                         }
-                        /*Este sera cuando son iguales crear 2 caminos y girar la ficha*/
-                        if (iniciocolocar.numero==this.fichadibujar.valor1 && iniciocolocar.numero==this.fichadibujar.valor2){
-                            draw.rotate(Math.toRadians(rotacion));
-                            draw.drawImage(this.fichadibujar.imagen,null,iniciocolocar.ibx+4,iniciocolocar.iby);
-                            
-                            break;
-                        }
-                        if (iniciocolocar.numero==this.fichadibujar.valor2 ){
-                            
-                        }
-                        
+
+
+                    }
+
+                    aux=aux.sigFc;
                 }
-                iniciocolocar=iniciocolocar.sigFc;
-            }
-            if (cuadro)
-                JOptionPane.showMessageDialog(null, "Coloca la ficha en el espacio verde correcto");
-           
-                
-            }
-            
+
+                }
         }
+    }
+        
+            
+    
         
 
             
     
-
+    
     @Override
     public void mousePressed(MouseEvent me) {
 
@@ -206,7 +220,7 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
         draw.fillRect(1261,100,104,400); /*Cuadro del U1*/
         draw.fillRect(430,0,450,100);  /*Cuadro del U2*/
         draw.fillRect(0,100,91,400);  /*Cuadro del U3*/
-        draw.fillRect(0,580,1365,120);
+        draw.fillRect(430,580,600,120);
         
 
         

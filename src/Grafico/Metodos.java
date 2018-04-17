@@ -11,6 +11,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -25,36 +26,7 @@ public class Metodos {
     public static BufferedImage imp;
     Random random = new Random();
     
-    public void darfichas(Usuario U){/*Da 8 Fichas a Usuario*/
-        for (int i =0; i<8; i++) {
-            System.out.println("pepe");
-            Ficha aux=this.inicioF;
-            int pos = 0;
-            System.out.println("hola");
-            int numero = random.nextInt(this.lenF(this.inicioF)); /*Genera aleatoriamenete entre 0 a total de fichas*/
-            System.out.println(numero);
-            while (pos!=numero){
-                pos+=1;
-                aux=aux.sigF;
-            }
-            U.setInicioF(aux);
-            if(numero==0){
-                this.inicioF=this.inicioF.sigF;
-                this.inicioF.antF=null;
-            }
-            if (numero==this.lenF(this.inicioF)-1){
-                this.finF=this.finF.antF;
-                this.finF.sigF=null;
-            }
-            if (numero!=0 || numero !=this.lenF(this.inicioF)-1){
-                aux.sigF.antF=aux.antF;
-                aux.antF.sigF=aux.sigF;
-            }
-            
 
-        }
-    }
-    
     public void cargarFichas(){ /*crea todas las 28 fichas con su respectiva imagen extrayendola.*/
         int cont1=0;
         int cont2=0;
@@ -116,6 +88,9 @@ public class Metodos {
         }
         if (10<=x && 160>=x && 20<=y && 70>=y){/*Si fuese Salir*/
             return 10;
+        }
+        if(x>=200 && x<=350 && y>=20 && y<=70){//si fuese guardar
+            return 11;
         }
         
         int indice=1;
@@ -206,7 +181,206 @@ public void imprimir(Usuario u){
         }
         
 }
+
+public boolean direccion(Fichacolocada aux,Fichacolocada iniciocolocar,int ificha,Graphics2D draw,Ficha fichadibujar,Partida partida,AffineTransform AT){
+    Fichacolocada nuevo1= new Fichacolocada();
+    Fichacolocada nuevo2;
+    if(aux.numero==7){ /*primera ficha*/
+        draw.drawImage(fichadibujar.imagen,null,aux.iax,aux.iay);
+        nuevo1 = new Fichacolocada(aux.iax,aux.iay+60,aux.ibx,aux.iby+60,aux.dax,aux.day+60,0);
+        nuevo2 = new Fichacolocada(aux.iax,aux.iay-60,aux.ibx,aux.iby-60,aux.dax,aux.day-60,180);
+        nuevo1.setNumero(fichadibujar.valor1);
+        nuevo2.setNumero(fichadibujar.valor2);
+       
+        nuevo1.sigFc=nuevo2;
+        nuevo2.antFc=nuevo1;
+        iniciocolocar=nuevo1;
+        
+        draw.setColor(Color.GREEN);
+        draw.fillRect(nuevo1.iax, nuevo1.iay, 30, 60);
+        draw.fillRect(nuevo2.iax, nuevo2.iay, 30, 60); /*coloca los cuadros verdes para selecionar*/
+        return true;
+        
+    }
+        /*Este sera cuando son iguales crear 2 caminos y girar la ficha cuando tiene igual numero*/
+ /*   if (fichadibujar.valor2==fichadibujar.valor1 && aux.numero == fichadibujar.valor2){ /*fichas igual numero*/
+        /*INCOMPLETO*/
+   /*     AT=AffineTransform.getRotateInstance(aux.ibx+15,aux.iby+30);
+        draw.drawImage(fichadibujar.imagen,AT,partida);
+        aux2 = new Fichacolocada(aux.iax,aux.iay,aux.ibx,aux.iby,aux.dax,aux.day,aux.rotacion+90);
+        aux1 = new Fichacolocada(aux.iax,aux.iay,aux.ibx,aux.iby,aux.dax,aux.day,aux.rotacion+270);
+        draw.setColor(Color.GREEN);
+        draw.fillRect(aux.ibx-75,aux.iby,60,30);
+        draw.fillRect(aux.dbx+75,aux.iby,60,30);
+        return true;
+    }*/
     
+    if (aux.numero == fichadibujar.valor2){ /*Si la parte baja de la ficha es igual*/
+        nuevo1.setNumero(aux.numero);
+        if (aux.rotacion==0){ /*para abajo*/
+            AT = AffineTransform.getTranslateInstance(aux.dbx,aux.dby);
+            AT.rotate(Math.toRadians(180));
+            draw.drawImage(fichadibujar.imagen,AT,null);
+            nuevo1 = new Fichacolocada(aux.iax,aux.iay+60,aux.ibx,aux.iby+60,aux.dax,aux.day+60,0);
+            draw.setColor(Color.GREEN);
+
+            if (nuevo1.iby>= 550){/*dibuja verda par ala izquierda*/
+                nuevo1= new Fichacolocada(aux.iax-60,aux.iay+30,aux.ibx-60, aux.iby,aux.dax-30,aux.day+30,90);
+                draw.fillRect(nuevo1.iax,nuevo1.iay,30,60);
+                addfichacol(nuevo1, aux, iniciocolocar);
+
+                return true;
+            }
+
+            draw.fillRect(nuevo1.iax,nuevo1.iay,60,30);
+            addfichacol(nuevo1, aux, iniciocolocar);
+            return true;
+        }
+        if (aux.rotacion==90){/*para la izquierda*/
+            AT = AffineTransform.getTranslateInstance(aux.ibx,aux.iby);
+            AT.rotate(Math.toRadians(270));
+            draw.drawImage(fichadibujar.imagen,AT,null);
+            nuevo1 = new Fichacolocada(aux.iax-60,aux.iay,aux.ibx-60,aux.iby,aux.dax-60,aux.day,90);
+            draw.setColor(Color.GREEN);
+            if (nuevo1.iax<=100){/*dibuja verde para arriba*/
+                nuevo1 = new Fichacolocada(aux.iax,aux.iay-60,aux.ibx,aux.iby-30,aux.dax-30,aux.day-60,180);
+                draw.fillRect(nuevo1.iax,nuevo1.iay,30,60);
+                addfichacol(nuevo1, aux, iniciocolocar);
+                return true;
+            }
+            draw.fillRect(nuevo1.iax,nuevo1.iay,60,30);
+            addfichacol(nuevo1, aux, iniciocolocar);
+            return true;
+        }
+        if (aux.rotacion==180){/*para arriba*/
+            AT = AffineTransform.getTranslateInstance(aux.iax,aux.iay);
+            AT.rotate(Math.toRadians(0));
+            draw.drawImage(fichadibujar.imagen,AT,null);
+            nuevo1 = new Fichacolocada(aux.iax,aux.iay-60,aux.ibx,aux.iby-60,aux.dax,aux.day-60,180);
+            draw.setColor(Color.GREEN);
+            if (nuevo1.iay<=120){/*Dibuja verde para derecha*/
+                nuevo1 = new Fichacolocada(aux.iax+30,aux.iay,aux.ibx+30,aux.iby-30,aux.dax+60,aux.day,270);
+                draw.fillRect(nuevo1.iax,nuevo1.iay,60,30);
+                addfichacol(nuevo1, aux, iniciocolocar);
+                return true;
+            }
+            draw.fillRect(nuevo1.iax,nuevo1.iay,30,60);
+            addfichacol(nuevo1, aux, iniciocolocar);
+            return true;
+        }
+        if (aux.rotacion==270){/*para derecha*/
+            AT = AffineTransform.getTranslateInstance(aux.dax,aux.day);
+            AT.rotate(Math.toRadians(90));
+            draw.drawImage(fichadibujar.imagen,AT,null);
+            nuevo1 = new Fichacolocada(aux.iax+60,aux.iay,aux.ibx+60,aux.iby,aux.dax+60,aux.day,270);
+            draw.setColor(Color.GREEN);
+            if(nuevo1.dax>=1230){/*dibuja verde para abajo*/
+                nuevo1 = new Fichacolocada(aux.iax+30,aux.iay+30,aux.ibx+30,aux.iby+60,aux.dax,aux.day+30,0);
+                draw.fillRect(nuevo1.iax,nuevo1.iay,30,60);
+                addfichacol(nuevo1, aux, iniciocolocar);
+                return true;
+            }
+            draw.fillRect(nuevo1.iax,nuevo1.iay,60,30);
+            addfichacol(nuevo1, aux, iniciocolocar);
+            return true;
+        }
+        
+        return true;
+
+    }
+
+    
+    if (aux.numero == fichadibujar.valor1){ /*Si la parte alta de la ficha es igual al numero*/
+        nuevo1.setNumero(aux.numero);
+        if (aux.rotacion==0){ /*para abajo*/
+            AT = AffineTransform.getTranslateInstance(aux.iax,aux.iay);
+            AT.rotate(Math.toRadians(0));
+            draw.drawImage(fichadibujar.imagen,AT,null);
+            nuevo1 = new Fichacolocada(aux.iax,aux.iay+60,aux.ibx,aux.iby+60,aux.dax,aux.day+60,0);
+            draw.setColor(Color.GREEN);
+
+            if (nuevo1.iby>= 550){/*dibuja verda par ala izquierda*/
+                nuevo1= new Fichacolocada(aux.iax-60,aux.iay+30,aux.ibx-60, aux.iby,aux.dax-30,aux.day+30,90);
+                draw.fillRect(nuevo1.iax,nuevo1.iay,30,60);
+                addfichacol(nuevo1, aux, iniciocolocar);
+                return true;
+            }
+
+            draw.fillRect(nuevo1.iax,nuevo1.iay,60,30);
+            addfichacol(nuevo1, aux, iniciocolocar);
+            return true;
+        }
+        if (aux.rotacion==90){/*para la izquierda*/
+            AT = AffineTransform.getTranslateInstance(aux.dax,aux.day);
+            AT.rotate(Math.toRadians(90));
+            draw.drawImage(fichadibujar.imagen,AT,null);
+            nuevo1 = new Fichacolocada(aux.iax-60,aux.iay,aux.ibx-60,aux.iby,aux.dax-60,aux.day,90);
+            draw.setColor(Color.GREEN);
+            if (nuevo1.iax<=100){/*dibuja verde para arriba*/
+                nuevo1 = new Fichacolocada(aux.iax,aux.iay-60,aux.ibx,aux.iby-30,aux.dax-30,aux.day-60,180);
+                draw.fillRect(nuevo1.iax,nuevo1.iay,30,60);
+                addfichacol(nuevo1, aux, iniciocolocar);
+                return true;
+            }
+            draw.fillRect(nuevo1.iax,nuevo1.iay,60,30);
+            addfichacol(nuevo1, aux, iniciocolocar);
+            return true;
+        }
+        if (aux.rotacion==180){/*para arriba*/
+            AT = AffineTransform.getTranslateInstance(aux.dbx,aux.dby);
+            AT.rotate(Math.toRadians(180));
+            draw.drawImage(fichadibujar.imagen,AT,null);
+            nuevo1 = new Fichacolocada(aux.iax,aux.iay-60,aux.ibx,aux.iby-60,aux.dax,aux.day-60,180);
+            draw.setColor(Color.GREEN);
+            if (nuevo1.iay<=120){/*Dibuja verde para derecha*/
+                nuevo1 = new Fichacolocada(aux.iax+30,aux.iay,aux.ibx+30,aux.iby-30,aux.dax+60,aux.day,270);
+                draw.fillRect(nuevo1.iax,nuevo1.iay,60,30);
+                addfichacol(nuevo1, aux, iniciocolocar);
+                return true;
+            }
+            draw.fillRect(nuevo1.iax,nuevo1.iay,30,60);
+            addfichacol(nuevo1, aux, iniciocolocar);
+            return true;
+        }
+        if (aux.rotacion==270){/*para derecha*/
+            AT = AffineTransform.getTranslateInstance(aux.ibx,aux.iby);
+            AT.rotate(Math.toRadians(270));
+            draw.drawImage(fichadibujar.imagen,AT,null);
+            nuevo1 = new Fichacolocada(aux.iax+60,aux.iay,aux.ibx+60,aux.iby,aux.dax+60,aux.day,270);
+            draw.setColor(Color.GREEN);
+            if(nuevo1.dax>=1230){/*dibuja verde para abajo*/
+                nuevo1 = new Fichacolocada(aux.iax+30,aux.iay+30,aux.ibx+30,aux.iby+60,aux.dax,aux.day+30,0);
+                draw.fillRect(nuevo1.iax,nuevo1.iay,30,60);
+                addfichacol(nuevo1, aux, iniciocolocar);
+                return true;
+            }
+            draw.fillRect(nuevo1.iax,nuevo1.iay,60,30);
+            addfichacol(nuevo1, aux, iniciocolocar);
+            return true;
+        }
+        
+    return true;
+
+    }
+    return false;
+}
+public Fichacolocada addfichacol(Fichacolocada nuevo,Fichacolocada aux,Fichacolocada iniciocolocar){
+    if(aux==iniciocolocar){
+        nuevo.sigFc=iniciocolocar.sigFc;
+        iniciocolocar.sigFc.antFc=nuevo;
+        iniciocolocar=nuevo;
+    }
+    else{
+        aux.antFc.sigFc=aux.sigFc;
+        aux.sigFc.antFc=aux.antFc;
+        iniciocolocar.antFc=nuevo;
+        nuevo.sigFc=iniciocolocar;
+        iniciocolocar=nuevo;
+    }
+    return iniciocolocar;
+}
+
+
     
    /*public void cargarFichas2(){
         int cont1=0;
