@@ -26,7 +26,7 @@ public class Metodos {
     public static BufferedImage imp;
     Random random = new Random();
     public Fichacolocada iniciocolocar= new Fichacolocada(660,310,660,368,687,310,0);
-
+    
     
 
     public void cargarFichas(){ /*crea todas las 28 fichas con su respectiva imagen extrayendola.*/
@@ -404,87 +404,17 @@ public Fichacolocada addfichacol(Fichacolocada nuevo,Fichacolocada aux,Fichacolo
     }
     return iniciocolocar;
 }
-
-
-    
-   /*public void cargarFichas2(){
-        int cont1=0;
-        int cont2=0;
-        int cont3=1;
-        int cont4=2;
-        int cont5=3;
-        int cont6=4;
-        int cont7=5;
-        for(int i=0; i<28;i++){
-            if(i<7){
-                
-                imp=Loader.ImageLoader("/Imagenes/"+(i)+".png");
-                Ficha f = new Ficha(cont1,cont2,0,0,imp);
-                System.out.println(f.getValor1()+"-"+f.getValor2());
-                agregarFichas(f);
-                cont2+=1;
-                
-            }
-            else if (i<13){
-                cont1=1;
-                imp=Loader.ImageLoader("/Imagenes/"+(i)+".png");
-                Ficha f = new Ficha(cont1,cont3,0,0,imp);
-                System.out.println(f.getValor1()+"-"+f.getValor2());
-                agregarFichas(f);
-                cont3+=1;
-        }
-            else if(i<18){
-                cont1=2;
-                imp=Loader.ImageLoader("/Imagenes/"+(i)+".png");
-                Ficha f = new Ficha(cont1,cont4,0,0,imp);
-                System.out.println(f.getValor1()+"-"+f.getValor2());
-                agregarFichas(f);
-                cont4+=1;
-            }
-            else if(i<22){
-                cont1=3;
-                imp=Loader.ImageLoader("/Imagenes/"+(i)+".png");
-                Ficha f = new Ficha(cont1,cont5,0,0,imp);
-                System.out.println(f.getValor1()+"-"+f.getValor2());
-                agregarFichas(f);
-                cont5+=1;
-            }
-            else if(i<25){
-                cont1=4;
-                imp=Loader.ImageLoader("/Imagenes/"+(i)+".png");
-                Ficha f = new Ficha(cont1,cont6,0,0,imp);
-                System.out.println(f.getValor1()+"-"+f.getValor2());
-                agregarFichas(f);
-                cont6+=1;
-            }
-            else if(i<27){
-                cont1=5;
-                imp=Loader.ImageLoader("/Imagenes/"+(i)+".png");
-                Ficha f = new Ficha(cont1,cont7,0,0,imp);
-                System.out.println(f.getValor1()+"-"+f.getValor2());
-                agregarFichas(f);
-                cont7+=1;
-            }
-            else{
-                cont1=6;
-                imp=Loader.ImageLoader("/Imagenes/"+(27)+".png");
-                Ficha f = new Ficha(cont1,cont1,0,0,imp);
-                System.out.println(f.getValor1()+"-"+f.getValor2());
-                agregarFichas(f);
-            }
+public int lenP(Usuario x){
+      Usuario aux=x.sigP;
+        int cont=1;
+        while (aux!=x){
+            aux=aux.sigP;
             
-        }}
-    public void agregarFichas(Ficha f){
-        Ficha aux=inicioF;
-        if(aux==null){
-            inicioF=finF=f;
+            cont+=1;
+            
         }
-        else{
-            f.sigF=inicioF;
-            inicioF.antF=f;
-            inicioF=f;
-        }
-    }*/
-    
+        System.out.println(cont);
+        return cont;
+}
 
 }

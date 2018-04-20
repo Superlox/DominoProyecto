@@ -14,20 +14,22 @@ import javax.swing.JOptionPane;
 public class PreparacionPartida extends javax.swing.JFrame {
     DefaultListModel<String> listmodel = new DefaultListModel<>();
     userUser F5;
-    Usuario us2;
-    Usuario us3;
-    Usuario us4;
+    Usuario inicioP,finP;
     public static metodos met;
+   
+    
     /**
      * Creates new form PreparacionPartida
      */
     public PreparacionPartida(userUser F5,metodos met) {
         initComponents();
         this.F5=F5;
-        this.met=met;
+        this.met=met;    
+        finP=inicioP=Login.auxUser;
+        finP.sigP=inicioP;
+        inicioP.antP=finP;
         
     }
-
     private PreparacionPartida() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -46,15 +48,11 @@ public class PreparacionPartida extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
@@ -64,32 +62,22 @@ public class PreparacionPartida extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel1.setText("Lista de jugadores registrados");
+        jLabel1.setText("Lista de jugadores  ");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
 
         jButton1.setBackground(new java.awt.Color(102, 255, 255));
         jButton1.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton1.setText("Cargar Partida");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 330, -1, -1));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 270, -1, -1));
 
         jScrollPane1.setViewportView(jList1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 210, -1));
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, 90, -1));
-        getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, 90, -1));
-        getContentPane().add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, 90, -1));
-
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel2.setText("Jugador 2:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 140, -1, -1));
-
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel3.setText("Jugador 3:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 180, -1, -1));
-
-        jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel4.setText("Jugador 4:");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 220, -1, -1));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 180, 190));
 
         jButton2.setBackground(new java.awt.Color(102, 255, 255));
         jButton2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -99,7 +87,7 @@ public class PreparacionPartida extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 280, -1, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 230, -1, -1));
 
         jButton3.setBackground(new java.awt.Color(153, 255, 255));
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/asd.png"))); // NOI18N
@@ -110,15 +98,27 @@ public class PreparacionPartida extends javax.swing.JFrame {
         });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 34, -1));
 
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 120, 180, -1));
+
         jButton4.setBackground(new java.awt.Color(102, 255, 255));
         jButton4.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        jButton4.setText("Refrescar Usuarios");
+        jButton4.setText("Agregar Jugador");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, -1, -1));
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 180, -1));
+
+        jButton5.setBackground(new java.awt.Color(102, 255, 255));
+        jButton5.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        jButton5.setText("Actualizar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(229, 80, 180, -1));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Fondo.png"))); // NOI18N
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -133,31 +133,63 @@ public class PreparacionPartida extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        int cont=1;
-         if ((jTextField2.getText().isEmpty()) && (jTextField3.getText().isEmpty())&&(jTextField4.getText().isEmpty())) {
-            JOptionPane.showMessageDialog(null, "Debe llenar los espacios para poder buscar un contrincante.");
-         }
-         Usuario aux1=met.buscarN(jTextField2.getText());
-         Usuario aux2=met.buscarN(jTextField3.getText());
-         Usuario aux3=met.buscarN(jTextField4.getText());
-         if(aux1!=null&&aux1.nombre!=aux2.nombre&& aux1.nombre!=aux3.nombre){
-             us2=aux1;
-             cont++;
-         }
-         if(aux2!=null&&aux2.nombre!=aux1.nombre&& aux2.nombre!=aux3.nombre){
-             us3=aux2;
-             cont++;
-         }
-         if(aux3!=null&&aux3.nombre!=aux2.nombre&& aux3.nombre!=aux1.nombre){
-             us4=aux3;
-             cont++;
-         }
-         JOptionPane.showMessageDialog(null, cont);
+        if(lenP(inicioP)<=1){
+            JOptionPane.showMessageDialog(rootPane,"Agregue personas al juego, no puede jugar solo.");
+            return;
+        }
+        else{
+        Grafico.Juego F8=new Grafico.Juego(inicioP,finP);
+        F8.setVisible(true);
+        this.setVisible(false);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        CargarPartida F7= new CargarPartida(this,met);
+        F7.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        imprimirUsuario();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        
+         
+        int cont=lenP(inicioP);
+
+        String aux=""+jComboBox1.getSelectedItem();
+        jComboBox1.removeItem(aux);
+        Usuario aux2=met.buscarN(aux);
+        Usuario aux3=buscarP(aux);
+        if(cont>=4){
+            JOptionPane.showMessageDialog(rootPane,"No puede agregar mas usuarios al juego");
+            return;
+        }
+        if(aux3!=null){
+            JOptionPane.showMessageDialog(rootPane,"No se puede jugar dos jugadores iguales");
+        }
+        else{
+            finP.sigP=aux2;
+            inicioP.antP=aux2;
+            aux2.antP=finP;
+            aux2.sigP=inicioP;
+            inicioP=aux2;
+            Usuario auxiliar=inicioP;
+            listmodel.clear();
+            while(auxiliar!=finP){
+                listmodel.addElement("-------------------------------");
+                listmodel.addElement(auxiliar.nombre);
+                auxiliar=auxiliar.sigP; 
+            }
+            auxiliar=finP;
+            listmodel.addElement("-------------------------------");
+            listmodel.addElement(auxiliar.nombre);
+        jList1.setModel(listmodel);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
@@ -201,17 +233,13 @@ public class PreparacionPartida extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 
 public void cerrar(){
@@ -219,20 +247,40 @@ F5.setVisible(true);
 this.dispose();
 }
 public void imprimirUsuario(){
-    listmodel.clear();
-    int cont=1;
-    Usuario aux=met.inicio;
-    while(aux!=met.fin){
-        if(aux.nombre==Login.auxUser.nombre)
-            aux=aux.sig;
-    listmodel.addElement("-------------------------------");
-    listmodel.addElement(cont+"-"+"Usuario: " + aux.getNombre());
-    aux=aux.sig;
-    cont++;
-    }
-    listmodel.addElement("-------------------------------");
-    listmodel.addElement(cont+"-"+"Usuario: " + aux.getNombre());
-    listmodel.addElement("-------------------------------");
-    jList1.setModel(listmodel);
+        jComboBox1.removeAllItems();
+        Usuario aux=met.inicio;
+        Usuario aux2=inicioP;
+        while(aux!=met.fin){
+            if(aux!=Login.auxUser)
+            jComboBox1.addItem(aux.nombre);
+        aux=aux.sig;
+        }
+        if(aux!=Login.auxUser){
+            aux=met.fin;
+            jComboBox1.addItem(aux.nombre);
+        }
 }
+public int lenP(Usuario x){
+      Usuario aux=x;
+        int cont=0;
+        while (aux!=finP){
+            aux=aux.sigP;
+            cont+=1;
+        }
+        cont++;
+        return cont;
+}
+public Usuario buscarP(String nombre){//Funcion para verificar si un usuario ya existe o no.
+        Usuario aux=inicioP;
+        while(aux!=finP){
+            if(aux.nombre.equals(nombre)){
+                return aux;
+            }
+        aux=aux.sigP;
+        }
+        aux=finP;
+        if(aux.nombre.equals(nombre))
+            return aux;
+        return null;
+    }
 }

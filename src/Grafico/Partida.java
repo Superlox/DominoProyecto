@@ -5,6 +5,7 @@
  */
 package Grafico;
 
+import Main.PreparacionPartida;
 import Main.Usuario;
 import java.awt.BasicStroke;
 import java.awt.Canvas;
@@ -25,35 +26,37 @@ import javax.swing.JOptionPane;
  */
 public class Partida extends Canvas implements MouseListener, MouseMotionListener {
     Metodos met = new Metodos();
-    Usuario u1 = new Usuario("Angel","hola","gg");
-    Usuario u2 = new Usuario("Pedro","hola","gg");
-    Usuario u3 = new Usuario("Marco","hola","gg");
-    Usuario u4 = new Usuario("NUEVO","hola","gg");
-    Usuario inicio = u1;
+    
     int mposx,mposy=0;
     boolean band = true; 
     boolean sodf = true; /*para saber si dibuja o seleciona ficha*/
     boolean jugadarealizada=false;/*para saber cuando el jugador jugo*/
     Ficha fichadibujar;
     int rotacion = 0;
-    int cantplayers=4;/*cantidad de jugadores en partida*/
+    int cantplayers;/*cantidad de jugadores en partida*/
     BufferedImage imagen;
     AffineTransform AT;
+    Usuario Lista,Fin;//AQUI ESTA LA LISTA PARA LOS USUARIOS DEL JUEGO!!!!!!!
+    Juego game;
     
-    public Partida(){
+    public Partida(Usuario Lista,Usuario Fin){
         
         this.setBackground(Color.orange);
         /*Inicializo las funciones del mouse*/
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
+        this.Lista=Lista;
+        this.Fin=Fin;
+        this.cantplayers=met.lenP(Lista);
         met.cargarFichas();
-
         
-        
-       met.setFichas(u1);
-       met.setFichas(u2);
-       met.setFichas(u3);
-       met.setFichas(u4);
+        Usuario aux=Lista;
+        while(aux!=Fin){
+            met.setFichas(aux);
+            aux=aux.sigP;
+        }
+        aux=Fin;
+        met.setFichas(Fin);
     }
     
     @Override
@@ -82,14 +85,11 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
             draw.drawImage(imagen, null,200,20);
             
         /*Quemar datos*/
-        u4.sig=inicio;
-        u3.sig=u4;
-        u2.sig=u3;
-        inicio.sig=u2;
+
         
 
        
-       dominosjugadores(cantplayers,inicio,draw);
+       dominosjugadores(cantplayers,Lista,draw);
       
         
         
@@ -138,15 +138,17 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
                 }
 
                 if (ificha==9){/*pasar de jugador*/
-                    inicio=inicio.sig;
-                    dominosjugadores(cantplayers, inicio, draw);
+                    Lista=Lista.sigP;
+                    dominosjugadores(cantplayers,Lista, draw);
                     this.jugadarealizada=false;
                     imagen=Loader.ImageLoader("/Imagenes/selecione.png");
                     draw.drawImage(imagen, null,880,0);    
                 }
 
                 if (ificha==10){/*Salir del juego*/
-
+                     game=new Juego(Lista,Fin);
+                     game.setVisible(false);
+                     game.cerrartodo();
                 }
                 
                 if (ificha==11){/*Guardar el juego*/
@@ -220,7 +222,7 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
     public void mouseMoved(MouseEvent me) {
           }
         
-    public void dominosjugadores(int cantplayers,Usuario Inicio,Graphics2D draw){/*Dibuja los cuadros y las fichas de cada jugador incluyendo el del turno*/
+    public void dominosjugadores(int cantplayers,Usuario Lista,Graphics2D draw){/*Dibuja los cuadros y las fichas de cada jugador incluyendo el del turno*/
         draw.setColor(Color.yellow);
         draw.fillRect(1261,100,104,400); /*Cuadro del U1*/
         draw.fillRect(430,0,450,100);  /*Cuadro del U2*/
@@ -231,26 +233,26 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
         
         if (cantplayers>=1){
             draw.setColor(Color.BLACK);
-            draw.drawString(Inicio.getNombre(), 650, 595);
-            imprimirfichas(inicio.sigFicha,draw);
+            draw.drawString(Lista.getNombre(), 650, 595);
+            imprimirfichas(Lista.sigFicha,draw);
             /*Falta meter lo de imprimir las fichas...*/
         
         }
         if (cantplayers>=2){
         draw.setColor(Color.BLACK);
-        draw.drawString(Inicio.sig.getNombre(), 1280, 115); /*Escribe el nombre*/
-        this.fichasnegras(1265,140,70,30,0,40,draw,Inicio.sig.sig.sigFicha);/*Dibuja las fichas*/
+        draw.drawString(Lista.sigP.getNombre(), 1280, 115); /*Escribe el nombre*/
+        this.fichasnegras(1265,140,70,30,0,40,draw,Lista.sigP.sigP.sigFicha);/*Dibuja las fichas*/
                          /*x,y,ancho,largo,incx,incy,draw*/
         }
         if (cantplayers>=3){
         draw.setColor(Color.BLACK);
-        draw.drawString(Inicio.sig.sig.getNombre(), 650, 22);
-        this.fichasnegras(500,30, 30, 70, 40, 0, draw,Inicio.sig.sig.sigFicha);
+        draw.drawString(Lista.sigP.sigP.getNombre(), 650, 22);
+        this.fichasnegras(500,30, 30, 70, 40, 0, draw,Lista.sigP.sigP.sigFicha);
         }
         if (cantplayers==4){
         draw.setColor(Color.BLACK);
-        draw.drawString(Inicio.sig.sig.sig.getNombre(), 25, 115);
-        this.fichasnegras(20,140,70,30,0,40,draw,Inicio.sig.sig.sig.sigFicha);
+        draw.drawString(Lista.sigP.sigP.sigP.getNombre(), 25, 115);
+        this.fichasnegras(20,140,70,30,0,40,draw,Lista.sigP.sigP.sigP.sigFicha);
         }
     }
     
