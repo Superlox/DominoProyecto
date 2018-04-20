@@ -22,9 +22,11 @@ import javax.swing.JOptionPane;
  * @author marco
  */
 public class Metodos {
-    public Ficha inicioF,finF;
+    public Ficha inicioF,finF=null;
     public static BufferedImage imp;
     Random random = new Random();
+    public Fichacolocada iniciocolocar= new Fichacolocada(660,310,660,368,687,310,0);
+
     
 
     public void cargarFichas(){ /*crea todas las 28 fichas con su respectiva imagen extrayendola.*/
@@ -44,8 +46,8 @@ public class Metodos {
                     imp=Loader.ImageLoader("/Imagenes/"+(i)+".png");
                     Ficha f = new Ficha(cont1,cont2,0,0,imp);
                     cont2+=1;
-                    f.sigF=inicioF;
                     inicioF.antF=f;
+                    f.sigF=inicioF;
                     inicioF=f;
                     System.out.println(inicioF.getValor1()+"-"+ inicioF.getValor2());
                 }
@@ -57,14 +59,23 @@ public class Metodos {
                 Ficha f = new Ficha(cont1,cont2,0,0,imp);
                 cont1+=1;
                 cont2=cont1;
-                f.sigF=inicioF;
                 inicioF.antF=f;
+                f.sigF=inicioF;
                 inicioF=f;
                 System.out.println(inicioF.getValor1() +"-"+ inicioF.getValor2());
             }
             
        }
     
+    }
+    public int lenFU(Ficha ficha){ /*retorna el tamano de la lista*/
+        Ficha aux= ficha;
+        int cont=0;
+        while (aux!=null){
+            aux=aux.sigFichaUsuario;
+            cont+=1;
+        }
+        return cont;
     }
     
     public int lenF(Ficha ficha){ /*retorna el tamano de la lista*/
@@ -106,69 +117,77 @@ public class Metodos {
         /*aqui va la condiccion para la trampa*/
         return 0;
     }
-            public void setFichas(Usuario u){//Empieza parte para agregar fichas al usuario
-        Ficha aux=inicioF;
-        int cont=0;
-        while(cont <=6){
-            if(u.sigFicha==null){
-               int numero=RandomFicha(lenF(aux));
-               Ficha fichaEncontrada=BuscarFicha(numero);
-               u.sigFicha=fichaEncontrada;
-               eliminarFicha(fichaEncontrada);
-            }
-            else{
-                int numero=RandomFicha(lenF(aux));
-                Ficha fichaEncontrada=BuscarFicha(numero);
-                fichaEncontrada.sigFichaUsuario=u.sigFicha;
-                u.sigFicha.antF=fichaEncontrada;
-                u.sigFicha=fichaEncontrada;
-                eliminarFicha(fichaEncontrada);
-                
-            }
-            cont++;
-        }
-        imprimir(u);
-        }
-        public int RandomFicha(int hasta){//numero random para la ficha
-          int randomInt = random.nextInt(hasta);
-          return randomInt;
-        }
-        public Ficha BuscarFicha(int Indice){//buscar la ficha ya despues haber obtenido el ramdom
-            Ficha aux=inicioF;
-            int cont=0;
-            while(cont!=Indice){
-               aux=aux.sigF;
-               cont++;
-            }
-            if(cont==Indice){
-            return aux;
-            }
-            return null;
-        }
-    public Ficha eliminarFicha(Ficha f){//eliminar la ficha de la lista principal
-        Ficha aux=inicioF;
-        if(inicioF.equals(f)){
-            inicioF.sigF=inicioF;
-            inicioF.antF=null;
-            
-            return aux;
+public void setFichas(Usuario u){//Empieza parte para agregar fichas al usuario
+Ficha aux=inicioF;
+int cont=0;
+while(cont <=6){
+     
+    if(u.sigFicha==null){
+       int numero=RandomFicha(lenF(aux)-1);
+       Ficha fichaEncontrada=BuscarFicha(numero);
+       u.sigFicha=fichaEncontrada;
+       eliminarFicha(fichaEncontrada);
+       System.out.println("el random:"+numero);
     }
-        while(aux!=finF ){
+    else{
+        int numero=RandomFicha(lenF(aux)-1);
+        Ficha fichaEncontrada=BuscarFicha(numero);
+        fichaEncontrada.sigFichaUsuario=u.sigFicha;
+        u.sigFicha.antFichaUsuario=fichaEncontrada;
+        u.sigFicha=fichaEncontrada;
+        eliminarFicha(fichaEncontrada);
+        System.out.println("el random:"+numero);
+    }
+
+    System.out.println("Tamano de fichas:"+lenF(inicioF));
+    cont++;
+}
+imprimir(u);
+}
+public int RandomFicha(int hasta){//numero random para la ficha
+  int randomInt = random.nextInt(hasta);
+  return randomInt;
+}
+public Ficha BuscarFicha(int Indice){//buscar la ficha ya despues haber obtenido el ramdom
+    Ficha aux=inicioF;
+    int cont=0;
+    if (inicioF.sigF==null){
+        return inicioF;
+    }
+    if (Indice==0){
+        return inicioF;
+    }
+    while(cont!=Indice){
+       aux=aux.sigF;
+       cont++;
+    }
+    return aux;
+}
+public Ficha eliminarFicha(Ficha f){//eliminar la ficha de la lista principal
+    if (inicioF.sigF==null){
+        inicioF=null;
+        return null;
+    }
+    else if(inicioF.equals(f)){
+        inicioF=inicioF.sigF;
+        inicioF.antF=null;
+    }
+    else if(finF.equals(f)){
+        finF=finF.antF;
+        finF.sigF=null;
+    }
+    Ficha aux=inicioF;
+    while(aux!=finF){
         if(aux.equals(f)){
             aux.sigF.antF=aux.antF;
             aux.antF.sigF=aux.sigF;
-
             return aux;
         }
         aux=aux.sigF;
     }
-    if(finF.equals(f)){
-        finF.antF=finF;
-        finF.sigF=null;
-        return aux;
-    }
     return null;
-    }
+
+}
     
 public void imprimir(Usuario u){
         Ficha aux=u.sigFicha;
@@ -182,20 +201,24 @@ public void imprimir(Usuario u){
         
 }
 
-public boolean direccion(Fichacolocada aux,Fichacolocada iniciocolocar,int ificha,Graphics2D draw,Ficha fichadibujar,Partida partida,AffineTransform AT){
+public boolean direccion(Fichacolocada aux,int ificha,Graphics2D draw,Ficha fichadibujar,Partida partida,AffineTransform AT){
     Fichacolocada nuevo1= new Fichacolocada();
-    Fichacolocada nuevo2;
+    Fichacolocada nuevo2= new Fichacolocada();
     if(aux.numero==7){ /*primera ficha*/
         draw.drawImage(fichadibujar.imagen,null,aux.iax,aux.iay);
         nuevo1 = new Fichacolocada(aux.iax,aux.iay+60,aux.ibx,aux.iby+60,aux.dax,aux.day+60,0);
         nuevo2 = new Fichacolocada(aux.iax,aux.iay-60,aux.ibx,aux.iby-60,aux.dax,aux.day-60,180);
-        nuevo1.setNumero(fichadibujar.valor1);
-        nuevo2.setNumero(fichadibujar.valor2);
+        nuevo1.setNumero(fichadibujar.valor2);
+        nuevo2.setNumero(fichadibujar.valor1);
        
         nuevo1.sigFc=nuevo2;
         nuevo2.antFc=nuevo1;
         iniciocolocar=nuevo1;
-        
+        aux=iniciocolocar;
+        while (aux!=null){
+            System.out.println("numero: "+aux.numero+ "  x= "+aux.iax+" y= "+aux.iay);
+            aux=aux.sigFc;
+        }
         draw.setColor(Color.GREEN);
         draw.fillRect(nuevo1.iax, nuevo1.iay, 30, 60);
         draw.fillRect(nuevo2.iax, nuevo2.iay, 30, 60); /*coloca los cuadros verdes para selecionar*/
@@ -216,9 +239,11 @@ public boolean direccion(Fichacolocada aux,Fichacolocada iniciocolocar,int ifich
     }*/
     
     if (aux.numero == fichadibujar.valor2){ /*Si la parte baja de la ficha es igual*/
-        nuevo1.setNumero(aux.numero);
+        nuevo1.setNumero(fichadibujar.valor2);
+        System.out.println("baja");
         if (aux.rotacion==0){ /*para abajo*/
-            AT = AffineTransform.getTranslateInstance(aux.dbx,aux.dby);
+            
+            AT = AffineTransform.getTranslateInstance(aux.dbx,aux.dby+60);
             AT.rotate(Math.toRadians(180));
             draw.drawImage(fichadibujar.imagen,AT,null);
             nuevo1 = new Fichacolocada(aux.iax,aux.iay+60,aux.ibx,aux.iby+60,aux.dax,aux.day+60,0);
@@ -228,8 +253,9 @@ public boolean direccion(Fichacolocada aux,Fichacolocada iniciocolocar,int ifich
                 nuevo1= new Fichacolocada(aux.iax-60,aux.iay+30,aux.ibx-60, aux.iby,aux.dax-30,aux.day+30,90);
                 draw.fillRect(nuevo1.iax,nuevo1.iay,30,60);
                 addfichacol(nuevo1, aux, iniciocolocar);
-
-                return true;
+            draw.fillRect(nuevo1.iax,nuevo1.iay,60,30);
+            addfichacol(nuevo1, aux, iniciocolocar);
+            return true;
             }
 
             draw.fillRect(nuevo1.iax,nuevo1.iay,60,30);
@@ -261,11 +287,11 @@ public boolean direccion(Fichacolocada aux,Fichacolocada iniciocolocar,int ifich
             if (nuevo1.iay<=120){/*Dibuja verde para derecha*/
                 nuevo1 = new Fichacolocada(aux.iax+30,aux.iay,aux.ibx+30,aux.iby-30,aux.dax+60,aux.day,270);
                 draw.fillRect(nuevo1.iax,nuevo1.iay,60,30);
-                addfichacol(nuevo1, aux, iniciocolocar);
+                iniciocolocar=addfichacol(nuevo1, aux, iniciocolocar);
                 return true;
             }
             draw.fillRect(nuevo1.iax,nuevo1.iay,30,60);
-            addfichacol(nuevo1, aux, iniciocolocar);
+            iniciocolocar=addfichacol(nuevo1, aux, iniciocolocar);
             return true;
         }
         if (aux.rotacion==270){/*para derecha*/
@@ -291,7 +317,8 @@ public boolean direccion(Fichacolocada aux,Fichacolocada iniciocolocar,int ifich
 
     
     if (aux.numero == fichadibujar.valor1){ /*Si la parte alta de la ficha es igual al numero*/
-        nuevo1.setNumero(aux.numero);
+        nuevo1.setNumero(fichadibujar.valor1);
+        System.out.println("parte alta");
         if (aux.rotacion==0){ /*para abajo*/
             AT = AffineTransform.getTranslateInstance(aux.iax,aux.iay);
             AT.rotate(Math.toRadians(0));
@@ -369,13 +396,11 @@ public Fichacolocada addfichacol(Fichacolocada nuevo,Fichacolocada aux,Fichacolo
         nuevo.sigFc=iniciocolocar.sigFc;
         iniciocolocar.sigFc.antFc=nuevo;
         iniciocolocar=nuevo;
+        
     }
     else{
-        aux.antFc.sigFc=aux.sigFc;
-        aux.sigFc.antFc=aux.antFc;
-        iniciocolocar.antFc=nuevo;
-        nuevo.sigFc=iniciocolocar;
-        iniciocolocar=nuevo;
+        aux.antFc.sigFc=nuevo;
+        aux.sigFc.antFc=nuevo;
     }
     return iniciocolocar;
 }

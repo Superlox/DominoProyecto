@@ -17,7 +17,6 @@ public class Usuario {
     public String Contraseña;
     public String control;
     public Usuario sig,ant;
-    public Ficha sigF;
     public Ficha sigFicha;
     
     public Usuario(String Nombre, String Contraseña,String control) {
@@ -25,7 +24,7 @@ public class Usuario {
         this.Contraseña = Contraseña;
         this.control=control;
         this.sig=this.ant=null;
-        this.sigFicha=null;
+
     }
 
 
@@ -54,19 +53,6 @@ public class Usuario {
         this.control = control;
     }
     
-    public void setInicioF(Ficha aux) {/*Nose si me funciona*/
-        if (this.sigF==null){
-            this.sigF = aux;
-            return;
-        }
-        aux.sigF=this.sigF;
-        this.sigF.antF=aux;
-        this.sigF=aux;
-    }
 
-
-    public Ficha getSigF() {
-        return sigF;
-    }
     
 }

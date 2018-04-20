@@ -22,9 +22,7 @@ public class Juego extends JFrame {
     static final int width=1365,height=720; /*Tamano de la ventana*/
     /*Canvas y los grafics para dibujar*/
     Partida canvas = new Partida(); 
-    BufferStrategy bS;
-    Graphics g;
-    /*CANVAS*/
+
     
     public Juego(){
         setTitle("DOMINO");
@@ -37,37 +35,7 @@ public class Juego extends JFrame {
     }
 
     
-    public void update(){
-        
-    }
-    
-    public void draw(){ /*Pinta*/
-        /*crea el buffer*/
-        bS = canvas.getBufferStrategy();
-        
-        if (bS == null){/*Le da un valor a buffer*/
-            canvas.createBufferStrategy(3);
-            return;
-        }
-        g = bS.getDrawGraphics();/*Le da el buffer a graphics*/
-        
-
-        //Aqui para abajo se dibuja
-       Ficha aux=met.inicioF;
-       int x=0;
-       int y=0;
-       while(aux!=null){ /*dibuja todas las fichas*/
-           g.drawImage(aux.imagen,x,y,null);
-               x+=29;
-               aux=aux.sigF;
-       }
-       
-       
-       
-       ///Termina Dibujo        
-        g.dispose();
-        bS.show();
-    }
+   
     
 
     

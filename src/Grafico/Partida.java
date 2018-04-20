@@ -35,7 +35,6 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
     boolean sodf = true; /*para saber si dibuja o seleciona ficha*/
     boolean jugadarealizada=false;/*para saber cuando el jugador jugo*/
     Ficha fichadibujar;
-    public Fichacolocada iniciocolocar= new Fichacolocada(660,310,660,368,687,310,0);
     int rotacion = 0;
     int cantplayers=4;/*cantidad de jugadores en partida*/
     BufferedImage imagen;
@@ -47,6 +46,14 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
         /*Inicializo las funciones del mouse*/
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
+        met.cargarFichas();
+
+        
+        
+       met.setFichas(u1);
+       met.setFichas(u2);
+       met.setFichas(u3);
+       met.setFichas(u4);
     }
     
     @Override
@@ -80,11 +87,8 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
         u2.sig=u3;
         inicio.sig=u2;
         
-        met.cargarFichas();
 
-        
-        
-        
+       
        dominosjugadores(cantplayers,inicio,draw);
       
         
@@ -127,6 +131,7 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
                         }
                         imagen=Loader.ImageLoader("/Imagenes/coloque.png");
                         draw.drawImage(imagen, null,880,0);
+                        
                         sodf=false; /*para que pase a dibujar*/
 
                     }
@@ -153,12 +158,12 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
 
 
             else{/*Colocar FICHA o trampa*/
-                Fichacolocada aux =iniciocolocar;
+                Fichacolocada aux =met.iniciocolocar;
                 while (aux!=null){/*Recorre los cuadros para ubicar el domino*/
                     /*para probar el primero, ya que trabajamos con un nodo simple*/
                     if(aux.iax<=mposx && aux.dax>=mposx && aux.iay<=mposy && aux.iby>=mposy ){ /*verifica donde quiere colocar la ficha*/
 
-                        band=met.direccion(aux,this.iniciocolocar,ificha,draw,this.fichadibujar,this,AT);
+                        band=met.direccion(aux,ificha,draw,this.fichadibujar,this,AT);
 
                         if (band){
                             this.fichadibujar=null;
@@ -227,33 +232,33 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
         if (cantplayers>=1){
             draw.setColor(Color.BLACK);
             draw.drawString(Inicio.getNombre(), 650, 595);
-            imprimirfichas(met.inicioF,draw);
+            imprimirfichas(inicio.sigFicha,draw);
             /*Falta meter lo de imprimir las fichas...*/
         
         }
         if (cantplayers>=2){
         draw.setColor(Color.BLACK);
         draw.drawString(Inicio.sig.getNombre(), 1280, 115); /*Escribe el nombre*/
-        this.fichasnegras(1265,140,70,30,0,40,draw);/*Dibuja las fichas*/
+        this.fichasnegras(1265,140,70,30,0,40,draw,Inicio.sig.sig.sigFicha);/*Dibuja las fichas*/
                          /*x,y,ancho,largo,incx,incy,draw*/
         }
         if (cantplayers>=3){
         draw.setColor(Color.BLACK);
         draw.drawString(Inicio.sig.sig.getNombre(), 650, 22);
-        this.fichasnegras(500,30, 30, 70, 40, 0, draw);
+        this.fichasnegras(500,30, 30, 70, 40, 0, draw,Inicio.sig.sig.sigFicha);
         }
         if (cantplayers==4){
         draw.setColor(Color.BLACK);
         draw.drawString(Inicio.sig.sig.sig.getNombre(), 25, 115);
-        this.fichasnegras(20,140,70,30,0,40,draw);
+        this.fichasnegras(20,140,70,30,0,40,draw,Inicio.sig.sig.sig.sigFicha);
         }
     }
     
-    public void fichasnegras(int posx, int posy, int ancho, int largo,int incx,int incy,Graphics2D draw) {
+    public void fichasnegras(int posx, int posy, int ancho, int largo,int incx,int incy,Graphics2D draw,Ficha f) {
         int cont=0;
         draw.setColor(Color.BLACK);
         while(cont<8){
-            if(cont>=met.lenF(u1.getSigF()))
+            if(cont>=met.lenFU(f))
                 draw.setColor(Color.GRAY);
             draw.fillRect(posx,posy,ancho,largo);
             posx+=incx;
@@ -271,11 +276,12 @@ public class Partida extends Canvas implements MouseListener, MouseMotionListene
         while (ficha!=null){/*dibuja las fichas*/
             posx+=40;
             draw.drawImage(ficha.imagen, null,posx, posy);
-            ficha=ficha.sigF;
+            ficha=ficha.sigFichaUsuario;
             cont+=1;
         }
         while (cont<8){ /*Dibuja grises las faltantes.*/
             draw.drawRect(posx, posy, 27, 58);
+            cont+=1;
         }
     }
 }
