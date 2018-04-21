@@ -11,11 +11,12 @@ package Grafico;
  */
 public class Fichacolocada {
     public int iax,iay,ibx,iby,dax,day,dbx,dby;
-    public int trampa;
+    public String trampa;
     public int numero;
     public Fichacolocada sigFc,antFc;
     public int rotacion;
     public boolean sinusar;
+    
     public Fichacolocada() {
     }
     
@@ -45,8 +46,12 @@ public class Fichacolocada {
         this.sinusar=true;
     }    
 
+    public boolean isSinusar() {
+        return sinusar;
+    }
 
-    public void setTrampa(int trampa) {
+
+    public void setTrampa(String trampa) {
         this.trampa = trampa;
     }
 

@@ -103,6 +103,12 @@ public class Metodos {
         if(x>=200 && x<=350 && y>=20 && y<=70){//si fuese guardar
             return 11;
         }
+        if(x>=300 && x<=340 && y>=590 && y<=670){//coger ficha
+            return 12;
+        }
+        if(x>=900 && x<=960 && y>=600 && y<=660){//si fuese la trampa
+            return 13;
+        }
         
         int indice=1;
         while (indice<=8){
@@ -143,6 +149,25 @@ while(cont <=6){
     cont++;
 }
 imprimir(u);
+}
+public void setTrampas(Usuario u,int cant){
+    int num;
+    if (cant==4) //genera numero random para la trampa segun si son 4 jugadores o menos
+        num = random.nextInt(2);
+    else
+        num = random.nextInt(3);
+    Trampa t = new Trampa();
+    if(num==0){
+        t= new Trampa("Retirar ficha");
+    }
+    if(num==1){
+        t= new Trampa("Perder turno");
+    }
+    if(num==2){
+        t= new Trampa("Tomar ficha");
+    }
+    u.setTrampa(t);
+    
 }
 public int RandomFicha(int hasta){//numero random para la ficha
   int randomInt = random.nextInt(hasta);
@@ -450,7 +475,7 @@ public void print(Fichacolocada inicio,Ficha fichadibujar){
     }
     System.out.println("Ficha a dibujar:"+fichadibujar.valor1+"-"+fichadibujar.valor2);
 }
-public int lenP(Usuario x){
+public int lenP(Usuario x){ // devuelve la cantidad de personas que estan jugando
       Usuario aux=x.sigP;
         int cont=1;
         while (aux!=x){
@@ -462,5 +487,18 @@ public int lenP(Usuario x){
         System.out.println(cont);
         return cont;
 }
+public void cogerficha(Usuario u){
+    
+        int numero=RandomFicha(lenF(inicioF)-1);
+        Ficha fichaEncontrada=BuscarFicha(numero);
+        fichaEncontrada.sigFichaUsuario=u.sigFicha;
+        u.sigFicha.antFichaUsuario=fichaEncontrada;
+        u.sigFicha=fichaEncontrada;
+        eliminarFicha(fichaEncontrada);
 
+    }
 }
+
+
+
+
