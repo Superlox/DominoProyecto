@@ -12,10 +12,10 @@ package Grafico;
 public class Fichacolocada {
     public int iax,iay,ibx,iby,dax,day,dbx,dby;
     public int trampa;
-    public int numero=7;
+    public int numero;
     public Fichacolocada sigFc,antFc;
     public int rotacion;
-
+    public boolean sinusar;
     public Fichacolocada() {
     }
     
@@ -26,10 +26,25 @@ public class Fichacolocada {
         this.iby = iby;
         this.dax = dax;
         this.day = day;
-        this.dbx = iby;
-        this.dby = dax;
+        this.dbx = dax;
+        this.dby = iby;
         this.rotacion=rotacion;
+        this.sinusar=true;
     }
+    public Fichacolocada(int iax, int iay, int ibx, int iby, int dax, int day,int rotacion, int numero) {
+        this.iax = iax;
+        this.iay = iay;
+        this.ibx = ibx;
+        this.iby = iby;
+        this.dax = dax;
+        this.day = day;
+        this.dbx = dax;
+        this.dby = iby;
+        this.rotacion=rotacion;
+        this.numero=numero;
+        this.sinusar=true;
+    }    
+
 
     public void setTrampa(int trampa) {
         this.trampa = trampa;
@@ -46,10 +61,13 @@ public class Fichacolocada {
     public int getIay() {
         return iay;
     }
-    public void limiterotacion(){
-        if (this.rotacion>=360){
-            this.rotacion-=360;
-        }
+
+    public void setSinusar(boolean sinusar) {
+        this.sinusar = sinusar;
     }
-}
+    
+    
+
+ }
+
 

@@ -9,6 +9,7 @@ package Grafico;
 import Main.metodos;
 import Main.Login;
 import Main.Usuario;
+import Main.userUser;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -41,11 +42,7 @@ public class Juego extends JFrame {
         
         
     }
-    public void cerrartodo(){
-        setVisible(false);
-        Main.userUser F9= new Main.userUser(log,meto);
-        F9.setVisible(true);
-    }
+
 
     
    
